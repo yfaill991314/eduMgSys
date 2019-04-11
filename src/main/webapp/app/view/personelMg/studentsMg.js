@@ -3,7 +3,7 @@ Ext.define('app.view.personelMg.studentsMg', {
     id: "studentMgGrid",
     extend: 'Ext.grid.Panel',
     xtype: 'view-personelMg-studentsMg',
-    requires: [],
+    requires: ['app.view.personelMg.stubaseInfo'],
     padding: "10px 20px 0 20px",
     config: {
         tabtitle:''
@@ -40,10 +40,11 @@ Ext.define('app.view.personelMg.studentsMg', {
                         xtype: 'toolbar', columnWidth: 1, scope: me, itemId: 'search',
                         items: [
                             {
-                                xtype: 'button', text: '申报', scope: me, glyph: 'xf234@FontAwesome',
+                                xtype: 'button', text: '添加', scope: me, glyph: 'xf234@FontAwesome',
                                 accessUrl: 'createAccount',
                                 itemId: 'bt_create',
                                 handler: function () {
+                                    me.infoWindow('add','');
                                 }
                             },
                             {
@@ -52,6 +53,12 @@ Ext.define('app.view.personelMg.studentsMg', {
                                 text: '修改', scope: me, glyph: 'xf044@FontAwesome',
                                 itemId: 'bt_edit',
                                 handler: function (btn) {
+                                    var selectData = me.getSelectionModel().getSelection();
+                                    if (selectData.length != 1) {
+                                        Ext.Msg.alert('温馨提示', '请选择一条操作数据');
+                                        return;
+                                    }
+                                    me.infoWindow('edit',selectData[0]);
                                 }
                             },
                             {
@@ -97,5 +104,89 @@ Ext.define('app.view.personelMg.studentsMg', {
 
         });
         me.callParent(arguments);
+    },
+
+    //详情窗口
+    infoWindow: function (operation, selectData) {
+        var me = this;
+        var isHidden = false;
+        if (operation == 'view') {
+            isHidden = true;
+        }
+
+        Ext.create("Ext.window.Window", {
+            title: '学生基本信息',
+            modal: true,
+            layout: 'fit',
+            width: '75%',
+            height: '75%',
+             items: [
+                {
+                    autoScroll: true,
+                    autoFill: true,
+                    height: '100%',
+                    width: '100%',
+                    xtype: "view-personelMg-stubaseInfo",
+                    listeners: {
+                        'afterrender': function (cmp) {
+                            if (operation == 'view' || operation == 'edit') {
+                                Ext.Ajax.request({
+                                    url: 'PersonelMg/findStudentInfo',
+                                    params: {'stuNum':selectData.get('stuNum')},
+                                    method: 'POST',
+                                    success: function (response, options) {
+
+                                        var response = JSON.parse(response.responseText);
+                                        if (response.success) {
+                                            var result = response.result;
+                                            Ext.getCmp('stubaseInfo').getForm().setValues(result);
+                                        } else {
+                                            Ext.Msg.alert("系统提示", response.message);
+                                        }
+
+                                    },
+                                    failure: function (response) {
+                                        Ext.Msg.alert("系统提示", "请求超时");
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }],
+            fbar: [
+                '->',
+                {
+                    xtype: 'button',
+                    text: "保存",
+                    itemId: 'save_id',
+                    hidden: isHidden,
+                    handler: function (btn) {
+                         var win = btn.up().up();
+                         if (operation == 'edit') {
+                            //提交修改
+                            win.down('view-personelMg-stubaseInfo').getStuInfo(operation, function () {
+                                Ext.getCmp("studentMgGrid").store.reload();
+                                win.close();
+                            });
+                        } else if (operation == 'add') {
+                            win.down('view-personelMg-stubaseInfo').getStuInfo(operation, function () {
+                                Ext.getCmp("studentMgGrid").store.reload();
+                                win.close();
+                            });
+                        }
+                    }
+
+                },
+                {
+                    xtype: 'button',
+                    text: "关闭",
+                    handler: function (btn) {
+                        var win = btn.up().up();
+                        win.close();
+                    }
+                }
+            ]
+        }).show();
     }
+
 });

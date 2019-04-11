@@ -1,13 +1,11 @@
 package com.sanxia.po;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 public class Student {
-    private Integer id;
+    private Integer stuNum;
 
     private String uuid;
 
-    private String stuNum;
+    private String userUuid;
 
     private String stuName;
 
@@ -25,14 +23,12 @@ public class Student {
 
     private String stuClass;
 
-    private Integer roleId;
-
-    public Integer getId() {
-        return id;
+    public Integer getStuNum() {
+        return stuNum;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStuNum(Integer stuNum) {
+        this.stuNum = stuNum;
     }
 
     public String getUuid() {
@@ -43,12 +39,12 @@ public class Student {
         this.uuid = uuid == null ? null : uuid.trim();
     }
 
-    public String getStuNum() {
-        return stuNum;
+    public String getUserUuid() {
+        return userUuid;
     }
 
-    public void setStuNum(String stuNum) {
-        this.stuNum = stuNum == null ? null : stuNum.trim();
+    public void setUserUuid(String userUuid) {
+        this.userUuid = userUuid == null ? null : userUuid.trim();
     }
 
     public String getStuName() {
@@ -113,13 +109,5 @@ public class Student {
 
     public void setStuClass(String stuClass) {
         this.stuClass = stuClass == null ? null : stuClass.trim();
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 }

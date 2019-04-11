@@ -262,12 +262,21 @@ Ext.define("app.view.main.main", {
     ,
     openIframeView:function (viewClsName, url, params) {
         var tp=Ext.getCmp('mainPage').queryById('centerBox');
-        tp.items.each(function(item) {
+        // tp.items.each(function(item) {
+        //     if (viewClsName==item.title) {
+        //         tp.setActiveTab(item);
+        //         return;
+        //     }
+        // });
+
+        items=tp.items;
+        for (var i=0;i<items.length;i++){
+            var item=items.items[i];
             if (viewClsName==item.title) {
                 tp.setActiveTab(item);
                 return;
             }
-        });
+        }
 
         try{
             var pane= Ext.create(url,{
