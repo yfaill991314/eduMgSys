@@ -1,7 +1,7 @@
 package com.sanxia.service;
 
 import com.sanxia.po.Student;
-import com.sanxia.po.SysAdmin;
+import com.sanxia.po.Sysadmin;
 import com.sanxia.po.Teacher;
 
 import java.util.List;
@@ -18,11 +18,29 @@ public interface PersonelMgService {
 
     List<Teacher> queryTeacherList();
 
-    List<SysAdmin> queryAdminList();
+    List<Sysadmin> queryAdminList();
 
     Student findStudentInfo(Student student);
 
     int addStudent(Student student);
 
     int exitStudent(Student student);
+
+    int delStudent(Student student);
+
+    Teacher findTeacherInfo(Teacher teacher);
+
+    int addTeacher(Teacher teacher);
+
+    int exitTeacher(Teacher teacher);
+
+    int delTeacher(Teacher teacher);
+
+    Sysadmin findAdminInfo(Sysadmin sysAdmin);
+
+    int addAdmin(Sysadmin sysadmin);
+
+    int exitAdmin(Sysadmin sysadmin);
+
+    int delAdmin(Sysadmin sysadmin);
 }

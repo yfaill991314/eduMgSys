@@ -1,11 +1,9 @@
 package com.sanxia.po;
 
 public class Teacher {
-    private Integer id;
+    private Integer teaNum;
 
     private String uuid;
-
-    private String teaNum;
 
     private String teaName;
 
@@ -21,12 +19,12 @@ public class Teacher {
 
     private String userUuid;
 
-    public Integer getId() {
-        return id;
+    public Integer getTeaNum() {
+        return teaNum;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTeaNum(Integer teaNum) {
+        this.teaNum = teaNum;
     }
 
     public String getUuid() {
@@ -35,14 +33,6 @@ public class Teacher {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getTeaNum() {
-        return teaNum;
-    }
-
-    public void setTeaNum(String teaNum) {
-        this.teaNum = teaNum == null ? null : teaNum.trim();
     }
 
     public String getTeaName() {

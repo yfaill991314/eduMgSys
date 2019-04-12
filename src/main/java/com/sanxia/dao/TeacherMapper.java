@@ -5,13 +5,13 @@ import com.sanxia.po.Teacher;
 import java.util.List;
 
 public interface TeacherMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer teaNum);
 
     int insert(Teacher record);
 
     int insertSelective(Teacher record);
 
-    Teacher selectByPrimaryKey(Integer id);
+    Teacher selectByPrimaryKey(Integer teaNum);
 
     int updateByPrimaryKeySelective(Teacher record);
 

@@ -2,9 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sanxia.dao.TeacherMapper">
   <resultMap id="BaseResultMap" type="com.sanxia.po.Teacher">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="tea_num" jdbcType="INTEGER" property="teaNum" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="tea_num" jdbcType="VARCHAR" property="teaNum" />
     <result column="tea_name" jdbcType="VARCHAR" property="teaName" />
     <result column="age" jdbcType="VARCHAR" property="age" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -14,39 +13,36 @@
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uuid, tea_num, tea_name, age, sex, phone_num, college, in_sch_year, user_uuid
+    tea_num, uuid, tea_name, age, sex, phone_num, college, in_sch_year, user_uuid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from teacher
-    where id = #{id,jdbcType=INTEGER}
+    where tea_num = #{teaNum,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teacher
-    where id = #{id,jdbcType=INTEGER}
+    where tea_num = #{teaNum,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sanxia.po.Teacher">
-    insert into teacher (id, uuid, tea_num, 
-      tea_name, age, sex, 
-      phone_num, college, in_sch_year, 
-      user_uuid)
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{teaNum,jdbcType=VARCHAR}, 
-      #{teaName,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{phoneNum,jdbcType=VARCHAR}, #{college,jdbcType=VARCHAR}, #{inSchYear,jdbcType=VARCHAR}, 
-      #{userUuid,jdbcType=VARCHAR})
+    insert into teacher (tea_num, uuid, tea_name, 
+      age, sex, phone_num, 
+      college, in_sch_year, user_uuid
+      )
+    values (#{teaNum,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{teaName,jdbcType=VARCHAR}, 
+      #{age,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{college,jdbcType=VARCHAR}, #{inSchYear,jdbcType=VARCHAR}, #{userUuid,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.sanxia.po.Teacher">
+  <insert id="insertSelective" parameterType="com.sanxia.po.Teacher" useGeneratedKeys="true" keyProperty="teaNum">
     insert into teacher
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="teaNum != null">
+        tea_num,
       </if>
       <if test="uuid != null">
         uuid,
-      </if>
-      <if test="teaNum != null">
-        tea_num,
       </if>
       <if test="teaName != null">
         tea_name,
@@ -71,14 +67,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="teaNum != null">
+        #{teaNum,jdbcType=INTEGER},
       </if>
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="teaNum != null">
-        #{teaNum,jdbcType=VARCHAR},
       </if>
       <if test="teaName != null">
         #{teaName,jdbcType=VARCHAR},
@@ -109,9 +102,6 @@
       <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="teaNum != null">
-        tea_num = #{teaNum,jdbcType=VARCHAR},
-      </if>
       <if test="teaName != null">
         tea_name = #{teaName,jdbcType=VARCHAR},
       </if>
@@ -134,12 +124,11 @@
         user_uuid = #{userUuid,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where tea_num = #{teaNum,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sanxia.po.Teacher">
     update teacher
     set uuid = #{uuid,jdbcType=VARCHAR},
-      tea_num = #{teaNum,jdbcType=VARCHAR},
       tea_name = #{teaName,jdbcType=VARCHAR},
       age = #{age,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
@@ -147,10 +136,8 @@
       college = #{college,jdbcType=VARCHAR},
       in_sch_year = #{inSchYear,jdbcType=VARCHAR},
       user_uuid = #{userUuid,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where tea_num = #{teaNum,jdbcType=INTEGER}
   </update>
-
-
 
   <select id="queryTeacherList" resultMap="BaseResultMap">
     select

@@ -1,11 +1,9 @@
 package com.sanxia.po;
 
-public class SysAdmin {
-    private Integer id;
+public class Sysadmin {
+    private Integer adNum;
 
     private String uuid;
-
-    private String adNum;
 
     private String adName;
 
@@ -17,12 +15,12 @@ public class SysAdmin {
 
     private String userUuid;
 
-    public Integer getId() {
-        return id;
+    public Integer getAdNum() {
+        return adNum;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAdNum(Integer adNum) {
+        this.adNum = adNum;
     }
 
     public String getUuid() {
@@ -31,14 +29,6 @@ public class SysAdmin {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getAdNum() {
-        return adNum;
-    }
-
-    public void setAdNum(String adNum) {
-        this.adNum = adNum == null ? null : adNum.trim();
     }
 
     public String getAdName() {

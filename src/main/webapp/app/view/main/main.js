@@ -30,7 +30,7 @@ Ext.define("app.view.main.main", {
                         },
                         {
                             xtype: 'tbtext',
-                            text: '<span style="color: white;font-weight:bold;">重庆三峡学院教学管理系统</span>',
+                            text: '<span style="color: white;font-weight:bold;">实验教学管理系统</span>',
                         },
                         '->', '->', '->', '->',
                         {
@@ -52,6 +52,7 @@ Ext.define("app.view.main.main", {
                             border: '0 0 0 0',
                             glyph: 'xf0c9@FontAwesome',
                             handler: function () {
+                                me.openExitPwdWin();
                             }
                         },
                         {
@@ -262,13 +263,6 @@ Ext.define("app.view.main.main", {
     ,
     openIframeView:function (viewClsName, url, params) {
         var tp=Ext.getCmp('mainPage').queryById('centerBox');
-        // tp.items.each(function(item) {
-        //     if (viewClsName==item.title) {
-        //         tp.setActiveTab(item);
-        //         return;
-        //     }
-        // });
-
         items=tp.items;
         for (var i=0;i<items.length;i++){
             var item=items.items[i];
@@ -288,6 +282,131 @@ Ext.define("app.view.main.main", {
             Ext.Msg.alert("系统提示", "视图加载错误");
         }
 
+    },
+    openExitPwdWin:function () {
+        Ext.create("Ext.window.Window", {
+            title: '修改密码',
+            modal: true,
+            layout: 'fit',
+            width: 300,
+            height: 400,
+            items: [
+                {
+                    autoScroll: true,
+                    autoFill: true,
+                    height: '100%',
+                    width: '100%',
+                    xtype: "form",
+                    layout: 'fit',
+                    id:'updatePwd',
+                    items: [
+                        {
+                            xtype: "form",
+                            layout: 'column',
+                            // title: '学生基本信息',
+                            items: [
+                                {
+                                    xtype: 'textfield',
+                                    fieldLabel: '旧密码',
+                                    labelWidth: 60,
+                                    columnWidth: 0.9,
+                                    allowBlank: false,
+                                    blankText: '旧密码必填',
+                                    itemId: 'oldPwd',
+                                    name: 'oldPwd',
+                                    margin: '10 0 0 30'
+                                },
+                                {
+                                    xtype: 'textfield',
+                                    fieldLabel: '新密码',
+                                    allowBlank: false,
+                                    blankText: '新密码必填',
+                                    labelWidth: 60,
+                                    name: 'newPwd',
+                                    itemId: 'newPwd',
+                                    columnWidth: 0.9,
+                                    margin: '10 0 0 30'
+                                },
+                                {
+                                    xtype: 'textfield',
+                                    fieldLabel: '确认密码',
+
+                                    blankText: '请再次输入密码',
+                                    labelWidth: 60,
+                                    name: 'againNewPwd',
+                                    itemId: 'againNewPwd',
+                                    columnWidth: 0.9,
+                                    margin: '10 0 0 30'
+                                }
+                            ]
+                        }
+                    ]
+                }],
+            fbar: [
+                '->',
+                {
+                    xtype: 'button',
+                    text: "保存",
+                    itemId: 'save_id',
+                    handler: function (btn) {
+                        var formData= Ext.getCmp('updatePwd').getForm().getValues();
+                        if (formData.newPwd!=formData.againNewPwd) {
+                            Ext.Msg.alert('温馨提示', '密码不一致，请重新输入！');
+                            return;
+                        }
+                        var params={};
+                        params['oldPwd']=formData.oldPwd;
+                        params['newPwd']=formData.newPwd;
+                        Ext.Ajax.request({
+                            url: 'common/updatePwd',
+                            method: 'POST',
+                            params:params,
+                            success: function (response, options) {
+                                var response = JSON.parse(response.responseText);
+                                if (response.success) {
+                                    Ext.Msg.alert("系统提示", response.result);
+                                    var form= Ext.getCmp('mainPage').queryById('logoutForm').getForm();
+                                    form.submit({
+                                        clientValidation: true,
+                                        url: 'logout',
+                                        // params: loginDate,
+                                        success: function(form, action) {
+                                            Ext.Msg.alert('Success', action.result.msg);
+                                        },
+                                        failure: function(form, action) {
+                                            switch (action.failureType) {
+                                                case Ext.form.action.Action.CLIENT_INVALID:
+                                                    Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+                                                    break;
+                                                case Ext.form.action.Action.CONNECT_FAILURE:
+                                                    Ext.Msg.alert('Failure', 'Ajax communication failed');
+                                                    break;
+                                                case Ext.form.action.Action.SERVER_INVALID:
+                                                    Ext.Msg.alert('Failure', action.result.msg);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    Ext.Msg.alert("系统提示", response.message);
+                                }
+                            },
+                            failure: function (response) {
+                                Ext.Msg.alert("系统提示", "请求超时");
+                            }
+                        });
+                    }
+
+                },
+                {
+                    xtype: 'button',
+                    text: "取消",
+                    handler: function (btn) {
+                        var win = btn.up().up();
+                        win.close();
+                    }
+                }
+            ]
+        }).show();
     }
 });
 

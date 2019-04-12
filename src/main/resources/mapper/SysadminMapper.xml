@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sanxia.dao.SysAdminMapper">
-  <resultMap id="BaseResultMap" type="com.sanxia.po.SysAdmin">
-    <id column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.sanxia.dao.SysadminMapper">
+  <resultMap id="BaseResultMap" type="com.sanxia.po.Sysadmin">
+    <id column="ad_num" jdbcType="INTEGER" property="adNum" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="ad_num" jdbcType="VARCHAR" property="adNum" />
     <result column="ad_name" jdbcType="VARCHAR" property="adName" />
     <result column="age" jdbcType="VARCHAR" property="age" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -12,37 +11,34 @@
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uuid, ad_num, ad_name, age, sex, phone_num, user_uuid
+    ad_num, uuid, ad_name, age, sex, phone_num, user_uuid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sysadmin
-    where id = #{id,jdbcType=INTEGER}
+    where ad_num = #{adNum,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sysadmin
-    where id = #{id,jdbcType=INTEGER}
+    where ad_num = #{adNum,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sanxia.po.SysAdmin">
-    insert into sysadmin (id, uuid, ad_num, 
-      ad_name, age, sex, phone_num, 
+  <insert id="insert" parameterType="com.sanxia.po.Sysadmin">
+    insert into sysadmin (ad_num, uuid, ad_name, 
+      age, sex, phone_num, 
       user_uuid)
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{adNum,jdbcType=VARCHAR}, 
-      #{adName,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+    values (#{adNum,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{adName,jdbcType=VARCHAR}, 
+      #{age,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
       #{userUuid,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sanxia.po.SysAdmin">
+  <insert id="insertSelective" parameterType="com.sanxia.po.Sysadmin" useGeneratedKeys="true" keyProperty="adNum">
     insert into sysadmin
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="adNum != null">
+        ad_num,
       </if>
       <if test="uuid != null">
         uuid,
-      </if>
-      <if test="adNum != null">
-        ad_num,
       </if>
       <if test="adName != null">
         ad_name,
@@ -61,14 +57,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="adNum != null">
+        #{adNum,jdbcType=INTEGER},
       </if>
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="adNum != null">
-        #{adNum,jdbcType=VARCHAR},
       </if>
       <if test="adName != null">
         #{adName,jdbcType=VARCHAR},
@@ -87,14 +80,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sanxia.po.SysAdmin">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanxia.po.Sysadmin">
     update sysadmin
     <set>
       <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="adNum != null">
-        ad_num = #{adNum,jdbcType=VARCHAR},
       </if>
       <if test="adName != null">
         ad_name = #{adName,jdbcType=VARCHAR},
@@ -112,25 +102,22 @@
         user_uuid = #{userUuid,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where ad_num = #{adNum,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sanxia.po.SysAdmin">
+  <update id="updateByPrimaryKey" parameterType="com.sanxia.po.Sysadmin">
     update sysadmin
     set uuid = #{uuid,jdbcType=VARCHAR},
-      ad_num = #{adNum,jdbcType=VARCHAR},
       ad_name = #{adName,jdbcType=VARCHAR},
       age = #{age,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       user_uuid = #{userUuid,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where ad_num = #{adNum,jdbcType=INTEGER}
   </update>
-
-
 
   <select id="queryAdminList" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from sysadmin;
+    <include refid="Base_Column_List"/>
+    from sysadmin
   </select>
 </mapper>

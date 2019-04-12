@@ -11,4 +11,6 @@ import com.sanxia.po.User;
  */
 public interface CommonService {
     User findCurrentUserInfo();
+
+    int updateUserPwd(User newUser);
 }

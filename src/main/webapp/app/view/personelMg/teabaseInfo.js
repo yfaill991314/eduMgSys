@@ -1,7 +1,7 @@
-Ext.define("app.view.personelMg.stubaseInfo", {
+Ext.define("app.view.personelMg.teabaseInfo", {
     extend: "Ext.form.Panel",
-    id: 'stubaseInfo',
-    xtype: "view-personelMg-stubaseInfo",
+    id: 'teabaseInfo',
+    xtype: "view-personelMg-teabaseInfo",
     width: "100%",
     height: "100%",
     layout: 'fit',
@@ -15,34 +15,21 @@ Ext.define("app.view.personelMg.stubaseInfo", {
     },
     initComponent: function () {
         var me = this;
-        // var  storeData = [
-        //     {'name': '计算机科学院', 'value': '1'},
-        //     {'name': '文学院', 'value': '2'},
-        //     {'name': '数学与统计院', 'value': '3'}
-        // ]
-
-
-        // var paramStore = Ext.create('Ext.data.Store', {
-        //     fields: ['name'],
-        //     autoLoad: true,
-        //     data:storeData
-        // });
         Ext.apply(this, {
             items: [
                 {
                     xtype: "form",
                     layout: 'column',
-                    // title: '学生基本信息',
                     items: [
                         {
                             xtype: 'textfield',
-                            fieldLabel: '学号',
+                            fieldLabel: '教师号',
                             labelWidth: 60,
                             columnWidth: .3,
-                            name: 'stuNum',
+                            name: 'teaNum',
                             readOnly: true,
-                            emptyText: '学号自动生产',
-                            itemId: 'stuNum',
+                            emptyText: '教师号自动生产',
+                            itemId: 'teaNum',
                             margin: '10 0 0 50'
                         },
                         {
@@ -51,8 +38,8 @@ Ext.define("app.view.personelMg.stubaseInfo", {
                             allowBlank: false,
                             blankText: '姓名必填',
                             labelWidth: 60,
-                            name: 'stuName',
-                            itemId: 'stuName',
+                            name: 'teaName',
+                            itemId: 'teaName',
                             columnWidth: .3,
                             margin: '10 0 0 50'
                         },
@@ -75,43 +62,6 @@ Ext.define("app.view.personelMg.stubaseInfo", {
                             labelWidth: 60,
                             name: 'college',
                             itemId: 'college',
-                            columnWidth: .3,
-                            margin: '10 0 0 50'
-                        },
-                        // {
-                        //     xtype: 'combobox',
-                        //     emptyText: '请选择',
-                        //     fieldLabel: '学院',
-                        //     store: paramStore,
-                        //     editable: false,
-                        //     displayField: 'name',
-                        //     allowBlank: false,
-                        //     valueField:'value',
-                        //     columnWidth: .3,
-                        //     labelWidth: 60,
-                        //     margin: '10 0 0 50',
-                        //     name: 'college',
-                        //     itemId: 'college',
-                        // },
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: '专业',
-                            allowBlank: false,
-                            blankText: '专业必填',
-                            labelWidth: 60,
-                            name: 'profession',
-                            itemId: 'profession',
-                            columnWidth: .3,
-                            margin: '10 0 0 50'
-                        },
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: '班级',
-                            allowBlank: false,
-                            blankText: '班级必填',
-                            labelWidth: 60,
-                            name: 'stuClass',
-                            itemId: 'stuClass',
                             columnWidth: .3,
                             margin: '10 0 0 50'
                         },
@@ -154,21 +104,21 @@ Ext.define("app.view.personelMg.stubaseInfo", {
         });
         this.callParent(arguments);
     },
-    getStuInfo: function (operation, success) {
+    getTeaInfo: function (operation, success) {
         var me = this;
-        var stuForm = me.getForm();
-        var formData = stuForm.getValues();
-        if (!stuForm.isValid()) {
-            Ext.Msg.alert('温馨提示', '请填写完的学生信息！');
+        var teaForm = me.getForm();
+        var formData = teaForm.getValues();
+        if (!teaForm.isValid()) {
+            Ext.Msg.alert('温馨提示', '请填写完的教师信息！');
             return;
         }
 
         var url = '';
         if (operation == 'add') {
-            url = 'PersonelMg/addStudent';
+            url = 'PersonelMg/addTeacher';
         } else if (operation == 'edit') {
             //修改
-            url = 'PersonelMg/exitStudent';
+            url = 'PersonelMg/exitTeacher';
         }
         Ext.Ajax.request({
             url:url,

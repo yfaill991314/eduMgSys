@@ -1,9 +1,10 @@
 package com.sanxia.controller;
 
 import com.sanxia.po.Student;
-import com.sanxia.po.SysAdmin;
+import com.sanxia.po.Sysadmin;
 import com.sanxia.po.Teacher;
 import com.sanxia.service.PersonelMgService;
+import com.sanxia.utils.ResultView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,34 +48,39 @@ public class PersonelMgController {
     @RequestMapping("/findStudentInfo")
     @ResponseBody
     public Map<String,Object> findStudentInfo(Student student) {
-        Map<String,Object> resultView=new HashMap<>();
-        resultView.put("success",true);
-        resultView.put("result",personelMgService.findStudentInfo(student));
-        return resultView;
+        return ResultView.getResultView(true,personelMgService.findStudentInfo(student));
     }
     @RequestMapping("/addStudent")
     @ResponseBody
     public Map<String,Object> addStudent(Student student) {
         int i= personelMgService.addStudent(student);
-        Map<String,Object> resultView=new HashMap<>();
-        resultView.put("success",true);
-        resultView.put("message","添加成功");
-        return resultView;
+        if (i>0){
+            return ResultView.getResultView(true,"添加成功");
+        }else {
+            return ResultView.getResultView(false,"添加失败");
+        }
     }
 
     @RequestMapping("/exitStudent")
     @ResponseBody
     public Map<String,Object> exitStudent(Student student) {
-        Map<String,Object> resultView=new HashMap<>();
         int i= personelMgService.exitStudent(student);
-        if (1<0){
-            resultView.put("success",false);
-            resultView.put("message","修改失败");
+        if (i<0){
+            return ResultView.getResultView(false,"修改失败");
         }else {
-            resultView.put("success",true);
-            resultView.put("message","修改成功");
+            return ResultView.getResultView(true,"修改成功");
         }
-        return resultView;
+    }
+
+    @RequestMapping("/delStudent")
+    @ResponseBody
+    public Map<String,Object> delStudent(Student student) {
+        int i= personelMgService.delStudent(student);
+        if (i<0){
+            return ResultView.getResultView(false,"删除失败");
+        }else {
+            return ResultView.getResultView(true,"删除成功");
+        }
     }
 
     @RequestMapping("/queryTeacherList")
@@ -83,10 +89,87 @@ public class PersonelMgController {
         return personelMgService.queryTeacherList();
     }
 
+    @RequestMapping("/findTeacherInfo")
+    @ResponseBody
+    public Map<String, Object> findTeacherInfo(Teacher teacher) {
+        return ResultView.getResultView(true,personelMgService.findTeacherInfo(teacher));
+    }
+
+    @RequestMapping("/addTeacher")
+    @ResponseBody
+    public Map<String,Object> addTeacher(Teacher teacher) {
+        int i= personelMgService.addTeacher(teacher);
+        if (i>0){
+            return ResultView.getResultView(true,"添加成功");
+        }else {
+            return ResultView.getResultView(false,"添加失败");
+        }
+    }
+
+    @RequestMapping("/exitTeacher")
+    @ResponseBody
+    public Map<String,Object> exitTeacher(Teacher teacher) {
+        int i= personelMgService.exitTeacher(teacher);
+        if (i<0){
+            return ResultView.getResultView(false,"修改失败");
+        }else {
+            return ResultView.getResultView(true,"修改成功");
+        }
+    }
+
+    @RequestMapping("/delTeacher")
+    @ResponseBody
+    public Map<String,Object> delTeacher(Teacher teacher) {
+        int i= personelMgService.delTeacher(teacher);
+        if (i<0){
+            return ResultView.getResultView(false,"删除失败");
+        }else {
+            return ResultView.getResultView(true,"删除成功");
+        }
+    }
+
     @RequestMapping("/queryAdminList")
     @ResponseBody
-    public List<SysAdmin> queryAdminList() {
+    public List<Sysadmin> queryAdminList() {
         return personelMgService.queryAdminList();
     }
 
+    @RequestMapping("/findAdminInfo")
+    @ResponseBody
+    public Map<String,Object> findAdminInfo(Sysadmin sysadmin) {
+        return ResultView.getResultView(true,personelMgService.findAdminInfo(sysadmin));
+    }
+    @RequestMapping("/addAdmin")
+    @ResponseBody
+    public Map<String,Object> addAdmin(Sysadmin sysadmin) {
+        int i= personelMgService.addAdmin(sysadmin);
+        if (i>0){
+            return ResultView.getResultView(true,"添加成功");
+        }else {
+            return ResultView.getResultView(false,"添加失败");
+        }
+    }
+
+    @RequestMapping("/exitAdmin")
+    @ResponseBody
+    public Map<String,Object> exitAdmin(Sysadmin sysadmin) {
+
+        int i= personelMgService.exitAdmin(sysadmin);
+        if (i<0){
+            return ResultView.getResultView(false,"修改失败");
+        }else {
+            return ResultView.getResultView(true,"修改成功");
+        }
+    }
+
+    @RequestMapping("/delAdmin")
+    @ResponseBody
+    public Map<String,Object> delAdmin(Sysadmin sysadmin) {
+        int i= personelMgService.delAdmin(sysadmin);
+        if (i<0){
+            return ResultView.getResultView(false,"删除失败");
+        }else {
+            return ResultView.getResultView(true,"删除成功");
+        }
+    }
 }

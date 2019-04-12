@@ -33,11 +33,15 @@ Ext.define('app.view.personelMg.studentsMg', {
         });
         Ext.apply(me, {
             tbar: {
-                layout: 'column', scope: me,
+                layout: 'column',
+                scope: me,
                 items: [
-
                     {
-                        xtype: 'toolbar', columnWidth: 1, scope: me, itemId: 'search',
+                        xtype: 'toolbar',
+                        columnWidth: 1,
+                        scope: me,
+                        itemId: 'search',
+                        style:'border: 1px solid blue;background:#AFCEE3;',
                         items: [
                             {
                                 xtype: 'button', text: '添加', scope: me, glyph: 'xf234@FontAwesome',
@@ -67,6 +71,12 @@ Ext.define('app.view.personelMg.studentsMg', {
                                 text: '删除', scope: me, glyph: 'xf014@FontAwesome',
                                 itemId: 'bt_del',
                                 handler: function () {
+                                    var selectData = me.getSelectionModel().getSelection();
+                                    if (selectData.length != 1) {
+                                        Ext.Msg.alert('温馨提示', '请选择一条操作数据');
+                                        return;
+                                    }
+                                    me.delStudent(selectData[0]);
                                 }
                             }
                         ]
@@ -187,6 +197,42 @@ Ext.define('app.view.personelMg.studentsMg', {
                 }
             ]
         }).show();
-    }
+    },
+    delStudent:function(selectData){
+        var me=this;
+        Ext.MessageBox.show({
+            title: '提示',
+            width: 200,
+            height: 150,
+            msg: '您确定要删除该数据吗？',
+            modal: true,
+            fn: function (id) {
+                if (id == "ok") {
+                    Ext.Ajax.request({
+                        url: 'PersonelMg/delStudent',
+                        params: {'stuNum':selectData.get('stuNum')},
+                        method: 'POST',
+                        success: function (response, options) {
+                            var response = JSON.parse(response.responseText);
+                            if (response.success) {
+                                Ext.Msg.alert("系统提示", response.result);
+                                Ext.getCmp("studentMgGrid").store.reload();
+                            } else {
+                                Ext.Msg.alert("系统提示", response.message);
+                            }
+
+                        },
+                        failure: function (response) {
+                            Ext.Msg.alert("系统提示", "请求超时");
+                        }
+                    });
+                } else {
+                    return;
+                }
+            },
+            buttons: Ext.Msg.OKCANCEL,
+            icon: Ext.Msg.INFO
+        });
+    },
 
 });
