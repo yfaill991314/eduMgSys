@@ -165,6 +165,6 @@
   <select id="queryStudentList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from student;
+    from student
   </select>
 </mapper>

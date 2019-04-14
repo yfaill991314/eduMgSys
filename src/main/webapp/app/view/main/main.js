@@ -308,10 +308,13 @@ Ext.define("app.view.main.main", {
                                 {
                                     xtype: 'textfield',
                                     fieldLabel: '旧密码',
+                                    inputType: 'password',
                                     labelWidth: 60,
                                     columnWidth: 0.9,
                                     allowBlank: false,
                                     blankText: '旧密码必填',
+                                    regex: /^[a-zA-Z0-9]{6,12}$/,
+                                    regexText: '密码格式不正确!',
                                     itemId: 'oldPwd',
                                     name: 'oldPwd',
                                     margin: '10 0 0 30'
@@ -320,7 +323,10 @@ Ext.define("app.view.main.main", {
                                     xtype: 'textfield',
                                     fieldLabel: '新密码',
                                     allowBlank: false,
+                                    inputType: 'password',
                                     blankText: '新密码必填',
+                                    regex: /^[a-zA-Z0-9]{6,12}$/,
+                                    regexText: '密码格式不正确!',
                                     labelWidth: 60,
                                     name: 'newPwd',
                                     itemId: 'newPwd',
@@ -330,7 +336,9 @@ Ext.define("app.view.main.main", {
                                 {
                                     xtype: 'textfield',
                                     fieldLabel: '确认密码',
-
+                                    inputType: 'password',
+                                    regex: /^[a-zA-Z0-9]{6,12}$/,
+                                    regexText: '密码格式不正确!',
                                     blankText: '请再次输入密码',
                                     labelWidth: 60,
                                     name: 'againNewPwd',
@@ -364,26 +372,16 @@ Ext.define("app.view.main.main", {
                             success: function (response, options) {
                                 var response = JSON.parse(response.responseText);
                                 if (response.success) {
-                                    Ext.Msg.alert("系统提示", response.result);
                                     var form= Ext.getCmp('mainPage').queryById('logoutForm').getForm();
                                     form.submit({
                                         clientValidation: true,
                                         url: 'logout',
                                         // params: loginDate,
                                         success: function(form, action) {
-                                            Ext.Msg.alert('Success', action.result.msg);
+                                            Ext.Msg.alert('系统提示', "注销成功");
                                         },
                                         failure: function(form, action) {
-                                            switch (action.failureType) {
-                                                case Ext.form.action.Action.CLIENT_INVALID:
-                                                    Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
-                                                    break;
-                                                case Ext.form.action.Action.CONNECT_FAILURE:
-                                                    Ext.Msg.alert('Failure', 'Ajax communication failed');
-                                                    break;
-                                                case Ext.form.action.Action.SERVER_INVALID:
-                                                    Ext.Msg.alert('Failure', action.result.msg);
-                                            }
+                                            Ext.Msg.alert('系统提示', "注销失败");
                                         }
                                     });
                                 } else {

@@ -1,5 +1,7 @@
 package com.sanxia.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sanxia.dao.*;
 import com.sanxia.po.Student;
 import com.sanxia.po.Sysadmin;
@@ -9,7 +11,9 @@ import com.sanxia.service.PersonelMgService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName PersonelMgServiceImpl
@@ -32,9 +36,21 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     private UserMapper userMapper;
 
     @Override
-    public List<Student> queryStudentList() {
-       return studentMapper.queryStudentList();
+    public Map<String, Object> queryStudentList(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<Student> students = studentMapper.queryStudentList();
+
+        PageInfo<Student> pageInfo = new PageInfo<>(students);
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", students);
+        result.put("total", total);
+        return result;
     }
+
     @Override
     public Student findStudentInfo(Student student) {
         return studentMapper.selectByPrimaryKey(student.getStuNum());
@@ -42,12 +58,12 @@ public class PersonelMgServiceImpl implements PersonelMgService {
 
     @Override
     public int addStudent(Student student) {
-        String stuUuid= sysUtilsMapper.findUuid();
-        String userUuid=sysUtilsMapper.findUuid();
+        String stuUuid = sysUtilsMapper.findUuid();
+        String userUuid = sysUtilsMapper.findUuid();
         student.setUuid(stuUuid);
         student.setUserUuid(userUuid);
         studentMapper.insertSelective(student);
-        User user=new User();
+        User user = new User();
         user.setUuid(userUuid);
         user.setInfoTableName("student");
         user.setInfoUuid(stuUuid);
@@ -55,16 +71,15 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         user.setUserName(student.getStuNum().toString());
         user.setUserPsd("123456");
 
-
         return userMapper.insertSelective(user);
     }
 
     @Override
     public int exitStudent(Student student) {
         Student oldStu = studentMapper.selectByPrimaryKey(student.getStuNum());
-        if (oldStu!=null){
+        if (oldStu != null) {
             return studentMapper.updateByPrimaryKeySelective(student);
-        }else {
+        } else {
             return -1;
 
         }
@@ -73,10 +88,10 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     @Override
     public int delStudent(Student student) {
         Student oldStu = studentMapper.selectByPrimaryKey(student.getStuNum());
-        if (oldStu!=null){
-            int i= userMapper.deleteByInfoUuid(oldStu.getUuid());
+        if (oldStu != null) {
+            int i = userMapper.deleteByInfoUuid(oldStu.getUuid());
             return studentMapper.deleteByPrimaryKey(student.getStuNum());
-        }else {
+        } else {
             return -1;
 
         }
@@ -84,8 +99,19 @@ public class PersonelMgServiceImpl implements PersonelMgService {
 
 
     @Override
-    public List<Teacher> queryTeacherList() {
-        return teacherMapper.queryTeacherList();
+    public Map<String, Object> queryTeacherList(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<Teacher> teachers = teacherMapper.queryTeacherList();
+
+        PageInfo<Teacher> pageInfo = new PageInfo<>(teachers);
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", teachers);
+        result.put("total", total);
+        return result;
     }
 
     @Override
@@ -95,14 +121,14 @@ public class PersonelMgServiceImpl implements PersonelMgService {
 
     @Override
     public int addTeacher(Teacher teacher) {
-        String teaUuid= sysUtilsMapper.findUuid();
-        String userUuid=sysUtilsMapper.findUuid();
+        String teaUuid = sysUtilsMapper.findUuid();
+        String userUuid = sysUtilsMapper.findUuid();
         teacher.setUuid(teaUuid);
         teacher.setUserUuid(userUuid);
 
         teacherMapper.insertSelective(teacher);
 
-        User user=new User();
+        User user = new User();
         user.setUuid(userUuid);
         user.setInfoTableName("teacher");
         user.setInfoUuid(teaUuid);
@@ -116,9 +142,9 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     @Override
     public int exitTeacher(Teacher teacher) {
         Teacher oldTea = teacherMapper.selectByPrimaryKey(teacher.getTeaNum());
-        if (oldTea!=null){
+        if (oldTea != null) {
             return teacherMapper.updateByPrimaryKeySelective(teacher);
-        }else {
+        } else {
             return -1;
 
         }
@@ -127,10 +153,10 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     @Override
     public int delTeacher(Teacher teacher) {
         Teacher oldTea = teacherMapper.selectByPrimaryKey(teacher.getTeaNum());
-        if (oldTea!=null){
-            int i= userMapper.deleteByInfoUuid(oldTea.getUuid());
+        if (oldTea != null) {
+            int i = userMapper.deleteByInfoUuid(oldTea.getUuid());
             return teacherMapper.deleteByPrimaryKey(teacher.getTeaNum());
-        }else {
+        } else {
             return -1;
 
         }
@@ -138,8 +164,19 @@ public class PersonelMgServiceImpl implements PersonelMgService {
 
 
     @Override
-    public List<Sysadmin> queryAdminList() {
-        return sysadminMapper.queryAdminList();
+    public Map<String, Object> queryAdminList(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<Sysadmin> sysadmins = sysadminMapper.queryAdminList();
+
+        PageInfo<Sysadmin> pageInfo = new PageInfo<>(sysadmins);
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", sysadmins);
+        result.put("total", total);
+        return result;
     }
 
     @Override
@@ -149,15 +186,15 @@ public class PersonelMgServiceImpl implements PersonelMgService {
 
     @Override
     public int addAdmin(Sysadmin sysadmin) {
-        String adminUuid= sysUtilsMapper.findUuid();
-        String userUuid=sysUtilsMapper.findUuid();
+        String adminUuid = sysUtilsMapper.findUuid();
+        String userUuid = sysUtilsMapper.findUuid();
 
         sysadmin.setUuid(adminUuid);
         sysadmin.setUserUuid(userUuid);
 
         sysadminMapper.insertSelective(sysadmin);
 
-        User user=new User();
+        User user = new User();
         user.setUuid(userUuid);
         user.setInfoTableName("sysadmin");
         user.setInfoUuid(adminUuid);
@@ -172,9 +209,9 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     @Override
     public int exitAdmin(Sysadmin sysadmin) {
         Sysadmin oldAdmin = sysadminMapper.selectByPrimaryKey(sysadmin.getAdNum());
-        if (oldAdmin!=null){
+        if (oldAdmin != null) {
             return sysadminMapper.updateByPrimaryKeySelective(sysadmin);
-        }else {
+        } else {
             return -1;
 
         }
@@ -183,10 +220,10 @@ public class PersonelMgServiceImpl implements PersonelMgService {
     @Override
     public int delAdmin(Sysadmin sysadmin) {
         Sysadmin oldAdmin = sysadminMapper.selectByPrimaryKey(sysadmin.getAdNum());
-        if (oldAdmin!=null){
-            int i= userMapper.deleteByInfoUuid(oldAdmin.getUuid());
+        if (oldAdmin != null) {
+            int i = userMapper.deleteByInfoUuid(oldAdmin.getUuid());
             return sysadminMapper.deleteByPrimaryKey(sysadmin.getAdNum());
-        }else {
+        } else {
             return -1;
 
         }

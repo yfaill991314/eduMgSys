@@ -21,13 +21,14 @@ Ext.define('app.view.personelMg.studentsMg', {
             id: 'simpsonsStore',
             autoLoad: true,
             // fields: ['stuName', 'age', 'sex'],
-            pageSize: 20, // 每页的条目数量
+            pageSize: 15, // 每页的条目数量
             proxy: {
                 type: 'ajax',
                 url: 'PersonelMg/queryStudentList',
                 reader: {
                     type: 'json',
-                    rootProperty: 'items',
+                    rootProperty: 'rows',
+                    totalProperty:"total"
                 }
             }
         });

@@ -4,7 +4,7 @@ import com.sanxia.po.Student;
 import com.sanxia.po.Sysadmin;
 import com.sanxia.po.Teacher;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName PersonelMgService
@@ -14,11 +14,11 @@ import java.util.List;
  * @Version 1.0
  */
 public interface PersonelMgService {
-    List<Student> queryStudentList();
+    Map<String, Object> queryStudentList(Map<String, Object> queryParams);
 
-    List<Teacher> queryTeacherList();
+    Map<String, Object> queryTeacherList(Map<String, Object> queryParams);
 
-    List<Sysadmin> queryAdminList();
+    Map<String,Object> queryAdminList(Map<String, Object> queryParams);
 
     Student findStudentInfo(Student student);
 

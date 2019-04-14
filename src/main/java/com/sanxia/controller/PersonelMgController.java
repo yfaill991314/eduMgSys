@@ -7,6 +7,7 @@ import com.sanxia.service.PersonelMgService;
 import com.sanxia.utils.ResultView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -35,8 +36,8 @@ public class PersonelMgController {
      **/
     @RequestMapping("/queryStudentList")
     @ResponseBody
-    public List<Student> queryStudentList() {
-        return personelMgService.queryStudentList();
+    public  Map<String,Object> queryStudentList(@RequestParam Map<String,Object> queryParams) {
+        return personelMgService.queryStudentList(queryParams);
     }
     /**
      * @Author Feng.Yang
@@ -85,8 +86,8 @@ public class PersonelMgController {
 
     @RequestMapping("/queryTeacherList")
     @ResponseBody
-    public List<Teacher> queryTeacherList() {
-        return personelMgService.queryTeacherList();
+    public  Map<String,Object> queryTeacherList(@RequestParam Map<String,Object> queryParams) {
+        return personelMgService.queryTeacherList(queryParams);
     }
 
     @RequestMapping("/findTeacherInfo")
@@ -130,8 +131,8 @@ public class PersonelMgController {
 
     @RequestMapping("/queryAdminList")
     @ResponseBody
-    public List<Sysadmin> queryAdminList() {
-        return personelMgService.queryAdminList();
+    public Map<String,Object>  queryAdminList(@RequestParam Map<String,Object> queryParams) {
+        return personelMgService.queryAdminList(queryParams);
     }
 
     @RequestMapping("/findAdminInfo")

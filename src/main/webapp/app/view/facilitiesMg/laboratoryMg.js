@@ -1,10 +1,10 @@
 
-Ext.define('app.view.personelMg.adminMg', {
-    id: "adminMgGrid",
+Ext.define('app.view.facilitiesMg.laboratoryMg', {
+    id: "laboratoryMg",
     extend: 'Ext.grid.Panel',
-    xtype: 'view-personelMg-adminMg',
+    xtype: 'view-facilitiesMg-laboratoryMg',
     requires: [
-        'app.view.personelMg.adminbaseInfo'
+        'app.view.facilitiesMg.clabaseInfo'
     ],
     padding: "10px 20px 0 20px",
     config: {
@@ -19,14 +19,13 @@ Ext.define('app.view.personelMg.adminMg', {
     initComponent: function () {
         var me = this;
 
-        var studestore = Ext.create('Ext.data.Store', {
+        var  claStore = Ext.create('Ext.data.Store', {
             id: 'simpsonsStore',
             autoLoad: true,
-            // fields: ['stuName', 'age', 'sex'],
             pageSize: 15, // 每页的条目数量
             proxy: {
                 type: 'ajax',
-                url: 'PersonelMg/queryAdminList',
+                url: 'facilitiesMg/queryClaRoomList',
                 reader: {
                     type: 'json',
                     rootProperty: 'rows',
@@ -36,11 +35,15 @@ Ext.define('app.view.personelMg.adminMg', {
         });
         Ext.apply(me, {
             tbar: {
-                layout: 'column', scope: me,
+                layout: 'column',
+                scope: me,
                 items: [
-
                     {
-                        xtype: 'toolbar', columnWidth: 1, scope: me, itemId: 'search',
+                        xtype: 'toolbar',
+                        columnWidth: 1,
+                        scope: me,
+                        itemId: 'search',
+                        style:'border: 1px solid blue;background:#AFCEE3;',
                         items: [
                             {
                                 xtype: 'button', text: '添加', scope: me, glyph: 'xf234@FontAwesome',
@@ -75,7 +78,7 @@ Ext.define('app.view.personelMg.adminMg', {
                                         Ext.Msg.alert('温馨提示', '请选择一条操作数据');
                                         return;
                                     }
-                                    me.delAdmin(selectData[0]);
+                                    me.delStudent(selectData[0]);
                                 }
                             }
                         ]
@@ -83,7 +86,7 @@ Ext.define('app.view.personelMg.adminMg', {
                 ]
             },
             border: true,
-            store: studestore,
+            store: claStore,
             title: me.config.tabtitle,
             // columnLines: true,
             closable: true,
@@ -91,11 +94,13 @@ Ext.define('app.view.personelMg.adminMg', {
                 enableTextSelection: true
             },
             columns: [
-                {text: '管理员号', dataIndex: 'adNum', width: '20%', align: 'center'},
-                {text: '姓名', dataIndex: 'adName', width: '20%', align: 'center'},
-                {text: '性别', dataIndex: 'sex', width: '19%', align: 'center'},
-                {text: '年龄', dataIndex: 'age', width: '20%', align: 'center'},
-                {text: '电话号码', dataIndex: 'phoneNum', width: '20%', align: 'center'},
+                {text: '教室编号', dataIndex: 'id', width: '15%', align: 'center'},
+                {text: '教学楼', dataIndex: 'buildName', width: '10%', align: 'center'},
+                {text: '楼层', dataIndex: 'floor', width: '15%', align: 'center'},
+                {text: '房间号', dataIndex: 'roomNum', width: '10%', align: 'center'},
+                {text: '容量(人)', dataIndex: 'capacity', width: '10%', align: 'center'},
+                {text: '状态', dataIndex: 'status', width: '14%', align: 'center'},
+                {text: '备注', dataIndex: 'remark', width: '25%', align: 'center'}
             ],
             listeners: {},
             dockedItems: [
@@ -103,7 +108,7 @@ Ext.define('app.view.personelMg.adminMg', {
                     xtype: 'pagingtoolbar',
                     dock: 'bottom',
                     displayInfo: true,
-                    store: studestore
+                    store: claStore
                 }
             ]
 
@@ -111,6 +116,7 @@ Ext.define('app.view.personelMg.adminMg', {
         });
         me.callParent(arguments);
     },
+
     //详情窗口
     infoWindow: function (operation, selectData) {
         var me = this;
@@ -120,30 +126,30 @@ Ext.define('app.view.personelMg.adminMg', {
         }
 
         Ext.create("Ext.window.Window", {
-            title: '管理员基本信息',
+            title: '教室基本信息',
             modal: true,
             layout: 'fit',
             width: '75%',
             height: '75%',
-            items: [
+             items: [
                 {
                     autoScroll: true,
                     autoFill: true,
                     height: '100%',
                     width: '100%',
-                    xtype: "view-personelMg-adminbaseInfo",
+                    xtype: "view-facilitiesMg-clabaseInfo",
                     listeners: {
                         'afterrender': function (cmp) {
                             if (operation == 'view' || operation == 'edit') {
                                 Ext.Ajax.request({
-                                    url: 'PersonelMg/findAdminInfo',
-                                    params: {'adNum':selectData.get('adNum')},
+                                    url: 'facilitiesMg/findClaRoomInfo',
+                                    params: {'id':selectData.get('id')},
                                     method: 'POST',
                                     success: function (response, options) {
                                         var response = JSON.parse(response.responseText);
                                         if (response.success) {
                                             var result = response.result;
-                                            Ext.getCmp('adminbaseInfo').getForm().setValues(result);
+                                            Ext.getCmp('clabaseInfo').getForm().setValues(result);
                                         } else {
                                             Ext.Msg.alert("系统提示", response.message);
                                         }
@@ -165,16 +171,16 @@ Ext.define('app.view.personelMg.adminMg', {
                     itemId: 'save_id',
                     hidden: isHidden,
                     handler: function (btn) {
-                        var win = btn.up().up();
-                        if (operation == 'edit') {
+                         var win = btn.up().up();
+                         if (operation == 'edit') {
                             //提交修改
-                            win.down('view-personelMg-adminbaseInfo').getAdminInfo(operation, function () {
-                                Ext.getCmp("adminMgGrid").store.reload();
+                            win.down('view-facilitiesMg-clabaseInfo').getStuInfo(operation, function () {
+                                Ext.getCmp("laboratoryMg").store.reload();
                                 win.close();
                             });
                         } else if (operation == 'add') {
-                            win.down('view-personelMg-adminbaseInfo').getAdminInfo(operation, function () {
-                                Ext.getCmp("adminMgGrid").store.reload();
+                            win.down('view-facilitiesMg-clabaseInfo').getStuInfo(operation, function () {
+                                Ext.getCmp("laboratoryMg").store.reload();
                                 win.close();
                             });
                         }
@@ -192,7 +198,7 @@ Ext.define('app.view.personelMg.adminMg', {
             ]
         }).show();
     },
-    delAdmin:function(selectData){
+    delStudent:function(selectData){
         var me=this;
         Ext.MessageBox.show({
             title: '提示',
@@ -203,14 +209,14 @@ Ext.define('app.view.personelMg.adminMg', {
             fn: function (id) {
                 if (id == "ok") {
                     Ext.Ajax.request({
-                        url: 'PersonelMg/delAdmin',
-                        params: {'adNum':selectData.get('adNum')},
+                        url: 'PersonelMg/delStudent',
+                        params: {'stuNum':selectData.get('stuNum')},
                         method: 'POST',
                         success: function (response, options) {
                             var response = JSON.parse(response.responseText);
                             if (response.success) {
                                 Ext.Msg.alert("系统提示", response.result);
-                                Ext.getCmp("adminMgGrid").store.reload();
+                                Ext.getCmp("studentMgGrid").store.reload();
                             } else {
                                 Ext.Msg.alert("系统提示", response.message);
                             }
@@ -227,5 +233,6 @@ Ext.define('app.view.personelMg.adminMg', {
             buttons: Ext.Msg.OKCANCEL,
             icon: Ext.Msg.INFO
         });
-    }
+    },
+
 });
