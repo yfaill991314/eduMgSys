@@ -187,7 +187,10 @@ Ext.define("app.view.main.main", {
                         {
                             xtype:'panel',
                             title:'首页',
+                            id:"first",
                             margin: '10 10 0 10',
+                            html:"<iframe src='news.html'scrolling='yes' frameborder=0 width=100% height=100%></iframe>"
+
                         }
                     ],
                     listeners: {

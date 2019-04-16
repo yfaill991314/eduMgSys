@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanxia.dao.EntityCourseMapper">
+    <resultMap id="BaseResultMap" type="com.sanxia.po.EntityCourse">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="course_id" jdbcType="INTEGER" property="courseId"/>
+        <result column="str_end_date" jdbcType="VARCHAR" property="strEndDate"/>
+        <result column="week" jdbcType="VARCHAR" property="week"/>
+        <result column="str_time" jdbcType="INTEGER" property="strTime"/>
+        <result column="end_time" jdbcType="INTEGER" property="endTime"/>
+        <result column="cla_room_id" jdbcType="INTEGER" property="claRoomId"/>
+        <result column="techer_id" jdbcType="INTEGER" property="techerId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, uuid, course_id, str_end_date, week, str_time, end_time, cla_room_id, techer_id, 
+    status
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from entity_course
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from entity_course
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.sanxia.po.EntityCourse">
+    insert into entity_course (id, uuid, course_id, 
+      str_end_date, week, str_time, 
+      end_time, cla_room_id, techer_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
+      #{strEndDate,jdbcType=VARCHAR}, #{week,jdbcType=VARCHAR}, #{strTime,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=INTEGER}, #{claRoomId,jdbcType=INTEGER}, #{techerId,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sanxia.po.EntityCourse">
+        insert into entity_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="strEndDate != null">
+                str_end_date,
+            </if>
+            <if test="week != null">
+                week,
+            </if>
+            <if test="strTime != null">
+                str_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="claRoomId != null">
+                cla_room_id,
+            </if>
+            <if test="techerId != null">
+                techer_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="strEndDate != null">
+                #{strEndDate,jdbcType=VARCHAR},
+            </if>
+            <if test="week != null">
+                #{week,jdbcType=VARCHAR},
+            </if>
+            <if test="strTime != null">
+                #{strTime,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=INTEGER},
+            </if>
+            <if test="claRoomId != null">
+                #{claRoomId,jdbcType=INTEGER},
+            </if>
+            <if test="techerId != null">
+                #{techerId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sanxia.po.EntityCourse">
+        update entity_course
+        <set>
+            <if test="uuid != null">
+                uuid = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="courseId != null">
+                course_id = #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="strEndDate != null">
+                str_end_date = #{strEndDate,jdbcType=VARCHAR},
+            </if>
+            <if test="week != null">
+                week = #{week,jdbcType=VARCHAR},
+            </if>
+            <if test="strTime != null">
+                str_time = #{strTime,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=INTEGER},
+            </if>
+            <if test="claRoomId != null">
+                cla_room_id = #{claRoomId,jdbcType=INTEGER},
+            </if>
+            <if test="techerId != null">
+                techer_id = #{techerId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sanxia.po.EntityCourse">
+    update entity_course
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=INTEGER},
+      str_end_date = #{strEndDate,jdbcType=VARCHAR},
+      week = #{week,jdbcType=VARCHAR},
+      str_time = #{strTime,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=INTEGER},
+      cla_room_id = #{claRoomId,jdbcType=INTEGER},
+      techer_id = #{techerId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="queryEntityCouresList" resultType="map">
+       SELECT
+	    ec.uuid uuid,
+	    ec.id id,
+	    CONCAT(ec.str_end_date,'周') date,
+	    ec.week week,
+	    ec.status status,
+	    CONCAT(concat_ws(',',ec.str_time,ec.end_time),'节') claTime,
+	    c.course_name couName,
+	    t.tea_name tName,
+        concat_ws('-',cr.build_name,cr.floor,cr.room_num) location
+      FROM
+	    entity_course ec
+      INNER JOIN course c ON ec.course_id = c.id
+      INNER JOIN teacher t ON ec.techer_id = t.tea_num
+      INNER JOIN classroom cr ON ec.cla_room_id = cr.id
+  </select>
+</mapper>

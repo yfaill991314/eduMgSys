@@ -38,7 +38,7 @@
         <!--生成对应表及类名-->
 
 
-        <table schema="WXZJ" tableName="classroom" domainObjectName="Classroom"
+        <table schema="WXZJ" tableName="entity_course" domainObjectName="EntityCourse"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
