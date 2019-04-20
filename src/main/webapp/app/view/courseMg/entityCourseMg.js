@@ -3,7 +3,7 @@ Ext.define('app.view.courseMg.entityCourseMg', {
     id: "entityCourseMg",
     extend: 'Ext.grid.Panel',
     xtype: 'view-courseMg-entityCourseMg',
-    requires: [],
+    requires: ["app.view.courseMg.entityCourseBaseInfo"],
     padding: "10px 20px 0 20px",
     config: {
         tabtitle:''
@@ -77,7 +77,7 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                                         Ext.Msg.alert('温馨提示', '请选择一条操作数据');
                                         return;
                                     }
-                                    me.delCourse(selectData[0]);
+                                    me.delEntityCourse(selectData[0]);
                                 }
                             }
                         ]
@@ -93,12 +93,13 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                 enableTextSelection: true
             },
             columns: [
-                {text: '课程id', dataIndex: 'id', width: '15%', align: 'center'},
-                {text: '课程名称', dataIndex: 'couName', width: '15%', align: 'center'},
+                {text: '课程id', dataIndex: 'id', width: '10%', align: 'center'},
+                {text: '课程名称', dataIndex: 'couName', width: '14%', align: 'center'},
                 {text: '上课地点', dataIndex: 'location', width: '15%', align: 'center'},
-                {text: '上课日期', dataIndex: 'date', width: '10%', align: 'center'},
+                {text: '开始日期', dataIndex: 'strDate', width: '10%', align: 'center'},
+                {text: '结束日期', dataIndex: 'endDate', width: '10%', align: 'center'},
                 {text: '星期', dataIndex: 'week', width: '10%', align: 'center'},
-                {text: '时间', dataIndex: 'claTime', width: '14%', align: 'center'},
+                {text: '时间', dataIndex: 'claTime', width: '10%', align: 'center'},
                 {text: '授课教师', dataIndex: 'tName', width: '10%', align: 'center'},
                 {text: '课程状态', dataIndex: 'status', width: '10%', align: 'center'},
 
@@ -127,7 +128,7 @@ Ext.define('app.view.courseMg.entityCourseMg', {
         }
 
         Ext.create("Ext.window.Window", {
-            title: '学生基本信息',
+            title: '课程基本信息',
             modal: true,
             layout: 'fit',
             width: '75%',
@@ -138,12 +139,12 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                     autoFill: true,
                     height: '100%',
                     width: '100%',
-                    xtype: "view-courseMg-courseBaseInfo",
+                    xtype: "view-courseMg-entityCourseBaseInfo",
                     listeners: {
                         'afterrender': function (cmp) {
                             if (operation == 'view' || operation == 'edit') {
                                 Ext.Ajax.request({
-                                    url: 'coursemg/findCourseInfo',
+                                    url: 'entityCourse/findEntityCourseInfo',
                                     params: {'id':selectData.get('id')},
                                     method: 'POST',
                                     success: function (response, options) {
@@ -151,7 +152,7 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                                         var response = JSON.parse(response.responseText);
                                         if (response.success) {
                                             var result = response.result;
-                                            Ext.getCmp('courseBaseInfo').getForm().setValues(result);
+                                            Ext.getCmp('entityCourseBaseInfo').getForm().setValues(result);
                                         } else {
                                             Ext.Msg.alert("系统提示", response.message);
                                         }
@@ -176,13 +177,13 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                          var win = btn.up().up();
                          if (operation == 'edit') {
                             //提交修改
-                            win.down('view-courseMg-courseBaseInfo').getCourseInfo(operation, function () {
-                                Ext.getCmp("courseMg").store.reload();
+                            win.down('view-courseMg-entityCourseBaseInfo').getEntityCourseInfo(operation, function () {
+                                Ext.getCmp("entityCourseMg").store.reload();
                                 win.close();
                             });
                         } else if (operation == 'add') {
-                            win.down('view-courseMg-courseBaseInfo').getCourseInfo(operation, function () {
-                                Ext.getCmp("courseMg").store.reload();
+                            win.down('view-courseMg-entityCourseBaseInfo').getEntityCourseInfo(operation, function () {
+                                Ext.getCmp("entityCourseMg").store.reload();
                                 win.close();
                             });
                         }
@@ -200,7 +201,7 @@ Ext.define('app.view.courseMg.entityCourseMg', {
             ]
         }).show();
     },
-    delCourse:function(selectData){
+    delEntityCourse:function(selectData){
         var me=this;
         Ext.MessageBox.show({
             title: '提示',
@@ -211,14 +212,14 @@ Ext.define('app.view.courseMg.entityCourseMg', {
             fn: function (id) {
                 if (id == "ok") {
                     Ext.Ajax.request({
-                        url: 'coursemg/delCourse',
+                        url: 'entityCourse/delEntityCourse',
                         params: {'id':selectData.get('id')},
                         method: 'POST',
                         success: function (response, options) {
                             var response = JSON.parse(response.responseText);
                             if (response.success) {
                                 Ext.Msg.alert("系统提示", response.result);
-                                Ext.getCmp("courseMg").store.reload();
+                                Ext.getCmp("entityCourseMg").store.reload();
                             } else {
                                 Ext.Msg.alert("系统提示", response.message);
                             }

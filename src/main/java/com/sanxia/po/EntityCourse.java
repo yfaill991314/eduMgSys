@@ -1,5 +1,9 @@
 package com.sanxia.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class EntityCourse {
     private Integer id;
 
@@ -7,7 +11,9 @@ public class EntityCourse {
 
     private Integer courseId;
 
-    private String strEndDate;
+    private Date startDate;
+
+    private Date endDate;
 
     private String week;
 
@@ -45,12 +51,20 @@ public class EntityCourse {
         this.courseId = courseId;
     }
 
-    public String getStrEndDate() {
-        return strEndDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStrEndDate(String strEndDate) {
-        this.strEndDate = strEndDate == null ? null : strEndDate.trim();
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getWeek() {

@@ -1,5 +1,7 @@
 package com.sanxia.service;
 
+import com.sanxia.po.EntityCourse;
+
 import java.util.Map;
 
 /**
@@ -11,4 +13,12 @@ import java.util.Map;
  */
 public interface EntityCourseMgService {
     Map<String,Object> queryEntityCouList(Map<String,Object> queryParams);
+
+    int addEntityCourse(EntityCourse entityCourse);
+
+    Map<String,Object> findEntityCourseInfo(EntityCourse entityCourse);
+
+    int exitEntityCourse(EntityCourse entityCourse);
+
+    int delEntityCourse(EntityCourse entityCourse);
 }

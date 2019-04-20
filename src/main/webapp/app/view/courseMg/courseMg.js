@@ -122,7 +122,7 @@ Ext.define('app.view.courseMg.courseMg', {
         }
 
         Ext.create("Ext.window.Window", {
-            title: '学生基本信息',
+            title: '科目基本信息',
             modal: true,
             layout: 'fit',
             width: '75%',

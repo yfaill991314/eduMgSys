@@ -138,8 +138,9 @@ body{
 }
 .x-btn-over.x-btn-default-small{
     background: #ffffff;
-    border: 2px solid #407ed9;
-    padding: 5px 8px 3px 8px;
+    /*border: 2px solid #407ed9;*/
+    /*padding: 5px 8px 3px 8px;*/
+    /*以上属性 当鼠标移入btn时会改变btn的大小影响布局*/
     color: #433E3C;
 }
 .x-btn-icon-el-default-small.x-btn-glyph{

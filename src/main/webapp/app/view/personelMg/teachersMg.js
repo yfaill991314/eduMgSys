@@ -19,8 +19,8 @@ Ext.define('app.view.personelMg.teachersMg', {
     initComponent: function () {
         var me = this;
 
-        var studestore = Ext.create('Ext.data.Store', {
-            id: 'simpsonsStore',
+        var teacherStore = Ext.create('Ext.data.Store', {
+            id: 'teacherStore',
             autoLoad: true,
             // fields: ['stuName', 'age', 'sex'],
             pageSize: 15, // 每页的条目数量
@@ -88,7 +88,7 @@ Ext.define('app.view.personelMg.teachersMg', {
                 ]
             },
             border: true,
-            store: studestore,
+            store: teacherStore,
             title: me.config.tabtitle,
             // columnLines: true,
             closable: true,
@@ -109,7 +109,7 @@ Ext.define('app.view.personelMg.teachersMg', {
                     xtype: 'pagingtoolbar',
                     dock: 'bottom',
                     displayInfo: true,
-                    store: studestore
+                    store: teacherStore
                 }
             ]
 
