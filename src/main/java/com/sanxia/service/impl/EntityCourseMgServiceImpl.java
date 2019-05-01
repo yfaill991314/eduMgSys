@@ -36,7 +36,7 @@ public class EntityCourseMgServiceImpl implements EntityCourseMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Map<String, Object>> entityCoures = entityCourseMapper.queryEntityCouresList();
+        List<Map<String, Object>> entityCoures = entityCourseMapper.queryEntityCouresList(queryParams);
 
         for (Map<String,Object> item:entityCoures) {
             SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd" );

@@ -51,6 +51,13 @@ public class PersonelMgController {
     public Map<String,Object> findStudentInfo(Student student) {
         return ResultView.getResultView(true,personelMgService.findStudentInfo(student));
     }
+    /**
+     * @Author Feng.Yang
+     * @Description //添加学生
+     * @Date 13:31 2019/4/25
+     * @Param [student]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/addStudent")
     @ResponseBody
     public Map<String,Object> addStudent(Student student) {
@@ -61,7 +68,13 @@ public class PersonelMgController {
             return ResultView.getResultView(false,"添加失败");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //修改学生信息
+     * @Date 13:32 2019/4/25
+     * @Param [student]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/exitStudent")
     @ResponseBody
     public Map<String,Object> exitStudent(Student student) {
@@ -72,7 +85,13 @@ public class PersonelMgController {
             return ResultView.getResultView(true,"修改成功");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //删除学生
+     * @Date 13:32 2019/4/25
+     * @Param [student]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/delStudent")
     @ResponseBody
     public Map<String,Object> delStudent(Student student) {
@@ -83,19 +102,37 @@ public class PersonelMgController {
             return ResultView.getResultView(true,"删除成功");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //查询教师列表
+     * @Date 13:33 2019/4/25
+     * @Param [queryParams]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/queryTeacherList")
     @ResponseBody
     public  Map<String,Object> queryTeacherList(@RequestParam Map<String,Object> queryParams) {
         return personelMgService.queryTeacherList(queryParams);
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //查询教师详情
+     * @Date 13:33 2019/4/25
+     * @Param [teacher]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/findTeacherInfo")
     @ResponseBody
     public Map<String, Object> findTeacherInfo(Teacher teacher) {
         return ResultView.getResultView(true,personelMgService.findTeacherInfo(teacher));
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //添加教师信息
+     * @Date 13:34 2019/4/25
+     * @Param [teacher]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/addTeacher")
     @ResponseBody
     public Map<String,Object> addTeacher(Teacher teacher) {
@@ -106,7 +143,13 @@ public class PersonelMgController {
             return ResultView.getResultView(false,"添加失败");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //修改教师信息
+     * @Date 13:34 2019/4/25
+     * @Param [teacher]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/exitTeacher")
     @ResponseBody
     public Map<String,Object> exitTeacher(Teacher teacher) {
@@ -117,7 +160,13 @@ public class PersonelMgController {
             return ResultView.getResultView(true,"修改成功");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //删除教师信息
+     * @Date 13:35 2019/4/25
+     * @Param [teacher]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/delTeacher")
     @ResponseBody
     public Map<String,Object> delTeacher(Teacher teacher) {
@@ -128,18 +177,37 @@ public class PersonelMgController {
             return ResultView.getResultView(true,"删除成功");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //查询管理员列表
+     * @Date 13:36 2019/4/25
+     * @Param [queryParams]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/queryAdminList")
     @ResponseBody
     public Map<String,Object>  queryAdminList(@RequestParam Map<String,Object> queryParams) {
         return personelMgService.queryAdminList(queryParams);
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //查询管理员详情
+     * @Date 13:36 2019/4/25
+     * @Param [sysadmin]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/findAdminInfo")
     @ResponseBody
     public Map<String,Object> findAdminInfo(Sysadmin sysadmin) {
         return ResultView.getResultView(true,personelMgService.findAdminInfo(sysadmin));
     }
+    /**
+     * @Author Feng.Yang
+     * @Description //添加管理员
+     * @Date 13:37 2019/4/25
+     * @Param [sysadmin]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/addAdmin")
     @ResponseBody
     public Map<String,Object> addAdmin(Sysadmin sysadmin) {
@@ -150,7 +218,13 @@ public class PersonelMgController {
             return ResultView.getResultView(false,"添加失败");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //修改管理员信息
+     * @Date 13:37 2019/4/25
+     * @Param [sysadmin]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/exitAdmin")
     @ResponseBody
     public Map<String,Object> exitAdmin(Sysadmin sysadmin) {
@@ -162,7 +236,13 @@ public class PersonelMgController {
             return ResultView.getResultView(true,"修改成功");
         }
     }
-
+    /**
+     * @Author Feng.Yang
+     * @Description //删除管理员
+     * @Date 13:37 2019/4/25
+     * @Param [sysadmin]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @RequestMapping("/delAdmin")
     @ResponseBody
     public Map<String,Object> delAdmin(Sysadmin sysadmin) {

@@ -162,9 +162,17 @@
     where stu_num = #{stuNum,jdbcType=INTEGER}
   </update>
 
-  <select id="queryStudentList" resultMap="BaseResultMap">
+  <select id="queryStudentList" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List" />
     from student
+    <where>
+      <if test="stuNum!=null and stuNum!=''">
+        stu_num = #{stuNum}
+      </if>
+      <if test="stuName!=null and stuName!=''">
+        and stu_name like concat (concat('%',#{stuName}),'%')
+      </if>
+    </where>
   </select>
 </mapper>

@@ -131,9 +131,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="queryNewList" resultMap="BaseResultMap">
+  <select id="queryNewList" resultMap="BaseResultMap" parameterType="map">
     select
      <include refid="Base_Column_List"/>
      from news
+    <where>
+      <if test="id!=null and id!=''">
+        id = #{id}
+      </if>
+      <if test="title!=null and title!=''">
+        and title like concat (concat('%',#{title}),'%')
+      </if>
+    </where>
   </select>
 </mapper>

@@ -18,7 +18,7 @@ public interface EntityCourseMapper {
 
     int updateByPrimaryKey(EntityCourse record);
 
-    List<Map<String,Object>> queryEntityCouresList();
+    List<Map<String,Object>> queryEntityCouresList(Map<String, Object> queryParams);
 
     Map<String,Object> findEntityCourseInfo(EntityCourse entityCourse);
 }

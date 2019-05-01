@@ -41,7 +41,7 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Student> students = studentMapper.queryStudentList();
+        List<Student> students = studentMapper.queryStudentList(queryParams);
 
         PageInfo<Student> pageInfo = new PageInfo<>(students);
         long total = pageInfo.getTotal();
@@ -104,7 +104,7 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Teacher> teachers = teacherMapper.queryTeacherList();
+        List<Teacher> teachers = teacherMapper.queryTeacherList(queryParams);
 
         PageInfo<Teacher> pageInfo = new PageInfo<>(teachers);
         long total = pageInfo.getTotal();
@@ -169,7 +169,7 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Sysadmin> sysadmins = sysadminMapper.queryAdminList();
+        List<Sysadmin> sysadmins = sysadminMapper.queryAdminList(queryParams);
 
         PageInfo<Sysadmin> pageInfo = new PageInfo<>(sysadmins);
         long total = pageInfo.getTotal();

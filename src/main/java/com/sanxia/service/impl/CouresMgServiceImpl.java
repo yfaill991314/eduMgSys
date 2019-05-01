@@ -35,7 +35,7 @@ public class CouresMgServiceImpl implements CouresMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Course> courses = courseMapper.queryCouresList();
+        List<Course> courses = courseMapper.queryCouresList(queryParams);
 
         PageInfo<Course> pageInfo = new PageInfo<>(courses);
         long total = pageInfo.getTotal();

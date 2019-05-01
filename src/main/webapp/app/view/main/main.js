@@ -3,7 +3,7 @@ Ext.define("app.view.main.main", {
     layout: 'border',
     id: 'mainPage',
     name: 'borderContainer',
-    requires: [],
+    requires: ['app.view.displayNews.newsList'],
     config: {},
     padding: "10px 20px 0 20px",
 
@@ -185,12 +185,8 @@ Ext.define("app.view.main.main", {
                     xtype: 'tabpanel',
                     items: [
                         {
-                            xtype:'panel',
-                            title:'首页',
-                            id:"first",
-                            margin: '10 10 0 10',
-                            html:"<iframe src='news.html'scrolling='yes' frameborder=0 width=100% height=100%></iframe>"
-
+                            xtype:'view-displayNews-newsList',
+                            tabtitle:'首页',
                         }
                     ],
                     listeners: {

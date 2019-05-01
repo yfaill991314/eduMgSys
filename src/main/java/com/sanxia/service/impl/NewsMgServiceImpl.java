@@ -36,7 +36,7 @@ public class NewsMgServiceImpl implements NewsMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<News> news = newsMapper.queryNewList();
+        List<News> news = newsMapper.queryNewList(queryParams);
 
         PageInfo<News> pageInfo = new PageInfo<>(news);
         long total = pageInfo.getTotal();

@@ -3,6 +3,7 @@ package com.sanxia.dao;
 import com.sanxia.po.Sysadmin;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysadminMapper {
     int deleteByPrimaryKey(Integer adNum);
@@ -17,5 +18,5 @@ public interface SysadminMapper {
 
     int updateByPrimaryKey(Sysadmin record);
 
-    List<Sysadmin> queryAdminList();
+    List<Sysadmin> queryAdminList(Map<String, Object> queryParams);
 }

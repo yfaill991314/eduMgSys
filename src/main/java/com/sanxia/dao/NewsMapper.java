@@ -3,6 +3,7 @@ package com.sanxia.dao;
 import com.sanxia.po.News;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NewsMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,5 +20,5 @@ public interface NewsMapper {
 
     int updateByPrimaryKey(News record);
 
-    List<News> queryNewList();
+    List<News> queryNewList(Map<String, Object> queryParams);
 }

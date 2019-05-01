@@ -3,6 +3,7 @@ package com.sanxia.dao;
 import com.sanxia.po.Course;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,5 +18,5 @@ public interface CourseMapper {
 
     int updateByPrimaryKey(Course record);
 
-    List<Course> queryCouresList();
+    List<Course> queryCouresList(Map<String, Object> queryParams);
 }

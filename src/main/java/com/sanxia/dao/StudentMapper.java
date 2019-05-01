@@ -3,6 +3,7 @@ package com.sanxia.dao;
 import com.sanxia.po.Student;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentMapper {
     int deleteByPrimaryKey(Integer stuNum);
@@ -17,5 +18,5 @@ public interface StudentMapper {
 
     int updateByPrimaryKey(Student record);
 
-    List<Student> queryStudentList();
+    List<Student> queryStudentList(Map<String, Object> queryParams);
 }

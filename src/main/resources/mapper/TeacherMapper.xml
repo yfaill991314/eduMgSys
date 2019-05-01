@@ -139,9 +139,17 @@
     where tea_num = #{teaNum,jdbcType=INTEGER}
   </update>
 
-  <select id="queryTeacherList" resultMap="BaseResultMap">
+  <select id="queryTeacherList" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List" />
     from teacher
+    <where>
+      <if test="teaNum!=null and teaNum!=''">
+        tea_num = #{teaNum}
+      </if>
+      <if test="teaName!=null and teaName!=''">
+        and tea_name like concat (concat('%',#{teaName}),'%')
+      </if>
+    </where>
   </select>
 </mapper>

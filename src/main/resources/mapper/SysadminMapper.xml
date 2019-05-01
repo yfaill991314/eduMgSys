@@ -115,9 +115,17 @@
     where ad_num = #{adNum,jdbcType=INTEGER}
   </update>
 
-  <select id="queryAdminList" resultMap="BaseResultMap">
+  <select id="queryAdminList" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List"/>
     from sysadmin
+    <where>
+      <if test="adNum!=null and adNum!=''">
+        ad_num = #{adNum}
+      </if>
+      <if test="adName!=null and adName!=''">
+        and ad_name like concat (concat('%',#{adName}),'%')
+      </if>
+    </where>
   </select>
 </mapper>

@@ -33,7 +33,7 @@ public class FacilitiesMgServiceImpl implements FacilitiesMgService {
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Classroom> classrooms = classroomMapper.queryClaRoomList();
+        List<Classroom> classrooms = classroomMapper.queryClaRoomList(queryParams);
 
         PageInfo<Classroom> pageInfo = new PageInfo<>(classrooms);
         long total = pageInfo.getTotal();

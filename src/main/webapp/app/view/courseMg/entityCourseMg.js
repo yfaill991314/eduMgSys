@@ -32,6 +32,16 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                 }
             }
         });
+
+        var paramStore = Ext.create('Ext.data.Store', {
+            fields: ['name'],
+            autoLoad: true,
+            data: [
+                {'name': '课程编号', 'value': 'id'},
+                {'name': '课程名称', 'value': 'couName'}
+            ]
+        });
+
         Ext.apply(me, {
             tbar: {
                 layout: 'column',
@@ -78,6 +88,47 @@ Ext.define('app.view.courseMg.entityCourseMg', {
                                         return;
                                     }
                                     me.delEntityCourse(selectData[0]);
+                                }
+                            },
+                            '->',
+                            {
+                                xtype: 'combobox',
+                                emptyText: '请选择',
+                                store: paramStore,
+                                editable: false,
+                                displayField: 'name',
+                                valueField: 'value',
+                                labelWidth: 60,
+                                width: 200,
+                                itemId: 'searchCom'
+                            },
+                            {
+                                xtype: 'textfield',
+                                emptyText: '请输入',
+                                labelWidth: 60,
+                                width: 220,
+                                itemId: 'searchContent'
+                            },
+                            {
+                                xtype: 'button', text: '搜索', scope: me, glyph: 'xf002@FontAwesome',
+                                handler: function () {
+                                    var searchCom = me.queryById("searchCom").getValue();
+                                    var searchContent = me.queryById("searchContent").getValue();
+
+                                    var params = {};
+                                    params[searchCom] = searchContent;
+
+                                    me.store.load({
+                                        params:params
+                                    });
+                                }
+                            },
+                            {
+                                xtype: 'button', text: '重置', scope: me, glyph: 'xf0e2@FontAwesome',
+                                handler: function () {
+                                    me.query("#searchCom")[0].setValue(null);
+                                    me.query("#searchContent")[0].setValue(null);
+
                                 }
                             }
                         ]

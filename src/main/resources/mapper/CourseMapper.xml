@@ -91,9 +91,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="queryCouresList" resultMap="BaseResultMap">
+  <select id="queryCouresList" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List"/>
     from course
+    <where>
+      <if test="id!=null and id!=''">
+        id = #{id}
+      </if>
+      <if test="courseName!=null and courseName!=''">
+        and course_name like concat (concat('%',#{courseName}),'%')
+      </if>
+    </where>
   </select>
 </mapper>

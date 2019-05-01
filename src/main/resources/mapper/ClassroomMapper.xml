@@ -126,9 +126,23 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="queryClaRoomList" resultMap="BaseResultMap">
+  <select id="queryClaRoomList" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List"/>
     from classroom
+    <where>
+      <if test="id!=null and id!=''">
+        id = #{id}
+      </if>
+      <if test="buildName!=null and buildName!=''">
+        and build_name like concat (concat('%',#{buildName}),'%')
+      </if>
+      <if test="floor!=null and floor!=''">
+        and floor like concat (concat('%',#{floor}),'%')
+      </if>
+      <if test="roomNum!=null and roomNum!=''">
+        and room_num = #{roomNum}
+      </if>
+    </where>
   </select>
 </mapper>
