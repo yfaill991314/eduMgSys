@@ -143,5 +143,6 @@
         and title like concat (concat('%',#{title}),'%')
       </if>
     </where>
+    order by ifnull(update_date,release_date)  desc
   </select>
 </mapper>
