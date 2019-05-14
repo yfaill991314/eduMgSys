@@ -21,4 +21,8 @@ public interface EntityCourseMgService {
     int exitEntityCourse(EntityCourse entityCourse);
 
     int delEntityCourse(EntityCourse entityCourse);
+
+    Map<String,Object> findTeaCourse(Map<String,Object> queryParams);
+
+    Map<String,Object> queryChooseCouList(Map<String,Object> queryParams);
 }

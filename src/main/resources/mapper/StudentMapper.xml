@@ -24,6 +24,13 @@
     from student
     where stu_num = #{stuNum,jdbcType=INTEGER}
   </select>
+  <select id="selectByUuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from student
     where stu_num = #{stuNum,jdbcType=INTEGER}

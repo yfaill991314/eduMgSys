@@ -72,4 +72,17 @@ public class EntityCourseMgController {
             return ResultView.getResultView(true,"删除成功");
         }
     }
+
+
+    @RequestMapping("/findTeaCourse")
+    @ResponseBody
+    public Map<String,Object> findTeaCourse(@RequestParam Map<String,Object> queryParams) {
+        return entityCourseMgService.findTeaCourse(queryParams);
+    }
+
+    @RequestMapping("/queryChooseCouList")
+    @ResponseBody
+    public Map<String,Object> queryChooseCouList(@RequestParam Map<String,Object> queryParams) {
+        return entityCourseMgService.queryChooseCouList(queryParams);
+    }
 }

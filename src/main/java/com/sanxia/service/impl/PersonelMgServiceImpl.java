@@ -8,6 +8,7 @@ import com.sanxia.po.Sysadmin;
 import com.sanxia.po.Teacher;
 import com.sanxia.po.User;
 import com.sanxia.service.PersonelMgService;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -69,7 +70,11 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         user.setInfoUuid(stuUuid);
         user.setRoleUuid("1385f4a3587711e9b2ad00163e0ed0cd");
         user.setUserName(student.getStuNum().toString());
-        user.setUserPsd("123456");
+
+        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+        String Psd = encoder.encodePassword("123456", user.getUserName());
+
+        user.setUserPsd(Psd);
 
         return userMapper.insertSelective(user);
     }
@@ -134,7 +139,11 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         user.setInfoUuid(teaUuid);
         user.setRoleUuid("fd22540a587611e9b2ad00163e0ed0cd");
         user.setUserName(teacher.getTeaNum().toString());
-        user.setUserPsd("123456");
+
+        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+        String Psd = encoder.encodePassword("123456", user.getUserName());
+
+        user.setUserPsd(Psd);
 
         return userMapper.insertSelective(user);
     }
@@ -200,7 +209,11 @@ public class PersonelMgServiceImpl implements PersonelMgService {
         user.setInfoUuid(adminUuid);
         user.setRoleUuid("2237b983587711e9b2ad00163e0ed0cd");
         user.setUserName(sysadmin.getAdNum().toString());
-        user.setUserPsd("123456");
+
+        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+        String Psd = encoder.encodePassword("123456", user.getUserName());
+
+        user.setUserPsd(Psd);
 
 
         return userMapper.insertSelective(user);

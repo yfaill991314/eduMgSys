@@ -14,6 +14,8 @@ public interface StudentMapper {
 
     Student selectByPrimaryKey(Integer stuNum);
 
+    Student selectByUuid(String uuid);
+
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);

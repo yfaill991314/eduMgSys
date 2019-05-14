@@ -1,5 +1,6 @@
 package com.sanxia.dao;
 
+import com.sanxia.po.Student;
 import com.sanxia.po.Teacher;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface TeacherMapper {
     int insertSelective(Teacher record);
 
     Teacher selectByPrimaryKey(Integer teaNum);
+    Teacher selectByUuid(String uuid);
 
     int updateByPrimaryKeySelective(Teacher record);
 

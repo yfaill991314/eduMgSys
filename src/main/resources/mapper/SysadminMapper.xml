@@ -19,6 +19,14 @@
     from sysadmin
     where ad_num = #{adNum,jdbcType=INTEGER}
   </select>
+  <select id="selectByUuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sysadmin
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sysadmin
     where ad_num = #{adNum,jdbcType=INTEGER}

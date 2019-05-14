@@ -1,10 +1,9 @@
 package com.sanxia.controller;
 
-import com.alibaba.druid.sql.visitor.functions.If;
-import com.sanxia.dao.UserMapper;
 import com.sanxia.po.User;
 import com.sanxia.service.CommonService;
 import com.sanxia.utils.ResultView;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +27,7 @@ public class CommonController {
     private CommonService commonService;
 
 
+
     @RequestMapping("/findCurrentUserInfo")
     @ResponseBody
     public Map<String, Object> findCurrentUserInfo() {
@@ -42,10 +42,15 @@ public class CommonController {
     @ResponseBody
     public Map<String, Object> updatePwd(@RequestParam("oldPwd") String oldPwd, @RequestParam("newPwd") String newPwd) {
         User currentUser = commonService.findCurrentUserInfo();
-        if (currentUser.getPassword().equals(oldPwd)) {
+
+        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+        String md5OldPwd = encoder.encodePassword(oldPwd, currentUser.getUserName());
+        String md5NewPwd=encoder.encodePassword(newPwd, currentUser.getUserName());
+
+        if (currentUser.getPassword().equals(md5OldPwd)) {
             User newUser = new User();
             newUser.setUserId(currentUser.getUserId());
-            newUser.setUserPsd(newPwd);
+            newUser.setUserPsd(md5NewPwd);
             int i = commonService.updateUserPwd(newUser);
             if (i>0){
                 return ResultView.getResultView(true, "修改成功");

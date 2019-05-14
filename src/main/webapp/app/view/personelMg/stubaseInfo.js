@@ -15,18 +15,6 @@ Ext.define("app.view.personelMg.stubaseInfo", {
     },
     initComponent: function () {
         var me = this;
-        // var  storeData = [
-        //     {'name': '计算机科学院', 'value': '1'},
-        //     {'name': '文学院', 'value': '2'},
-        //     {'name': '数学与统计院', 'value': '3'}
-        // ]
-
-
-        // var paramStore = Ext.create('Ext.data.Store', {
-        //     fields: ['name'],
-        //     autoLoad: true,
-        //     data:storeData
-        // });
         Ext.apply(this, {
             items: [
                 {

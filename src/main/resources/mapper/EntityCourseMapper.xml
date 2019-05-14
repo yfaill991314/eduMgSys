@@ -212,4 +212,74 @@
       INNER JOIN classroom cr ON ec.cla_room_id = cr.id
       where ec.id=#{id}
   </select>
+
+    <select id="findTeaCourseByTeaUuid" parameterType="map" resultType="map">
+        SELECT
+        ec.uuid uuid,
+        ec.id id,
+        ec.start_date strDate,
+        ec.end_date endDate,
+        ec.week week,
+        ec.status status,
+        CONCAT(concat_ws(',',ec.str_time,ec.end_time),'节') claTime,
+        ec.str_time startNode,
+        ec.end_time endNode,
+        c.course_name couName,
+        t.tea_name tName,
+        concat_ws('-',cr.build_name,cr.floor,cr.room_num) location
+        FROM
+        entity_course ec
+        INNER JOIN course c ON ec.course_id = c.id
+        INNER JOIN teacher t ON ec.techer_id = t.tea_num
+        INNER JOIN classroom cr ON ec.cla_room_id = cr.id
+        <where>
+            <if test="teaUuid!=null and teaUuid!=''">
+                t.uuid=#{teaUuid}
+            </if>
+            <if test="id!=null and id!=''">
+                and ec.id = #{id}
+            </if>
+            <if test="tid!=null and tid!=''">
+                and t.tea_num= #{tid}
+            </if>
+            <if test="couName!=null and couName!=''">
+                and c.course_name like concat (concat('%',#{couName}),'%')
+            </if>
+            <if test="status == null">
+                and ec.status != '已添加'
+            </if>
+            <if test="status != null">
+                and ec.status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryChooseCouList" resultType="map" parameterType="map">
+        SELECT
+        ec.uuid uuid,
+        ec.id id,
+        ec.start_date strDate,
+        ec.end_date endDate,
+        ec.week week,
+        ec.status status,
+        CONCAT(concat_ws(',',ec.str_time,ec.end_time),'节') claTime,
+        c.course_name couName,
+        t.tea_name tName,
+        concat_ws('-',cr.build_name,cr.floor,cr.room_num) location
+        FROM
+        entity_course ec
+        INNER JOIN course c ON ec.course_id = c.id
+        INNER JOIN teacher t ON ec.techer_id = t.tea_num
+        INNER JOIN classroom cr ON ec.cla_room_id = cr.id
+        <where>
+            ec.status='待选课'
+            <if test="id!=null and id!=''">
+               and ec.id = #{id}
+            </if>
+            <if test="couName!=null and couName!=''">
+                and c.course_name like concat (concat('%',#{couName}),'%')
+            </if>
+        </where>
+    </select>
 </mapper>

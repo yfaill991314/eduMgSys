@@ -25,6 +25,15 @@
     <!--登录 处理配置-->
     <authentication-manager>
         <authentication-provider user-service-ref="userLoginServiceImpl">
+            <!-- 使用MD5对密码进行加密 -->
+
+            <password-encoder hash="md5">
+
+                <!-- 盐，根据用户name作为盐 -->
+
+                <salt-source user-property="userName"/>
+
+            </password-encoder>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

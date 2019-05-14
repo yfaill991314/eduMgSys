@@ -1,5 +1,6 @@
 package com.sanxia.dao;
 
+import com.sanxia.po.Student;
 import com.sanxia.po.Sysadmin;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface SysadminMapper {
     int insertSelective(Sysadmin record);
 
     Sysadmin selectByPrimaryKey(Integer adNum);
+    Sysadmin selectByUuid(String uuid);
 
     int updateByPrimaryKeySelective(Sysadmin record);
 

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanxia.dao.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.sanxia.po.Grade">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="e_course_id" jdbcType="INTEGER" property="eCourseId" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="grade" jdbcType="DECIMAL" property="grade" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uuid, e_course_id, stu_id, grade
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from grade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sanxia.po.Grade">
+    insert into grade (id, uuid, e_course_id, 
+      stu_id, grade)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{eCourseId,jdbcType=INTEGER}, 
+      #{stuId,jdbcType=INTEGER}, #{grade,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanxia.po.Grade">
+    insert into grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="eCourseId != null">
+        e_course_id,
+      </if>
+      <if test="stuId != null">
+        stu_id,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eCourseId != null">
+        #{eCourseId,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanxia.po.Grade">
+    update grade
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eCourseId != null">
+        e_course_id = #{eCourseId,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanxia.po.Grade">
+    update grade
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      e_course_id = #{eCourseId,jdbcType=INTEGER},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryCouresGradeList" parameterType="map" resultType="map">
+    SELECT
+    ec.uuid uuid,
+    ec.id coureId,
+    ec.start_date strDate,
+    ec.end_date endDate,
+    ec.week week,
+    ec.status status,
+    CONCAT(concat_ws('到',ec.str_time,ec.end_time),'节') claTime,
+    ec.str_time startNode,
+    ec.end_time endNode,
+    c.course_name couName,
+    t.tea_name tName,
+    concat_ws('-',cr.build_name,cr.floor,cr.room_num) location,
+    gd.grade,
+    gd.id gradeId
+    FROM
+    grade gd
+    inner join entity_course ec on ec.id=gd.e_course_id
+    INNER JOIN course c ON ec.course_id = c.id
+    INNER JOIN teacher t ON ec.techer_id = t.tea_num
+    INNER JOIN classroom cr ON ec.cla_room_id = cr.id
+    <where>
+      gd.stu_id=#{stuId}
+      <if test="id!=null and id!=''">
+        and ec.id = #{id}
+      </if>
+      <if test="couName!=null and couName!=''">
+        and c.course_name like concat (concat('%',#{couName}),'%')
+      </if>
+      <if test="status!=null and status!=''">
+        and ec.status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="isExisteGrade" resultType="com.sanxia.po.Grade" parameterType="com.sanxia.po.Grade">
+    select
+    <include refid="Base_Column_List" />
+    from grade
+    <where>
+      <if test="stuId!=null and stuId!=''">
+        stu_id=#{stuId}
+      </if>
+      <if test="eCourseId!=null and eCourseId!=''">
+        and e_course_id=#{eCourseId}
+      </if>
+    </where>
+  </select>
+</mapper>

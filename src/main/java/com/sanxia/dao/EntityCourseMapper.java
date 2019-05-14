@@ -21,4 +21,8 @@ public interface EntityCourseMapper {
     List<Map<String,Object>> queryEntityCouresList(Map<String, Object> queryParams);
 
     Map<String,Object> findEntityCourseInfo(EntityCourse entityCourse);
+
+    List<Map<String,Object>> findTeaCourseByTeaUuid(Map<String, Object> queryParams);
+
+    List<Map<String,Object>> queryChooseCouList(Map<String,Object> queryParams);
 }

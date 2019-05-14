@@ -4,9 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sanxia.dao.EntityCourseMapper;
 import com.sanxia.dao.SysUtilsMapper;
+import com.sanxia.dao.TeacherMapper;
 import com.sanxia.po.EntityCourse;
 import com.sanxia.po.Student;
+import com.sanxia.po.Teacher;
+import com.sanxia.po.User;
+import com.sanxia.service.CommonService;
 import com.sanxia.service.EntityCourseMgService;
+import com.sanxia.service.PersonelMgService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +34,10 @@ public class EntityCourseMgServiceImpl implements EntityCourseMgService {
     private EntityCourseMapper entityCourseMapper;
     @Resource
     private SysUtilsMapper sysUtilsMapper;
+    @Resource
+    private CommonService commonService;
+   @Resource
+   private TeacherMapper teacherMapper;
 
     @Override
     public Map<String, Object> queryEntityCouList(Map<String, Object> queryParams) {
@@ -93,5 +102,58 @@ public class EntityCourseMgServiceImpl implements EntityCourseMgService {
             return -1;
 
         }
+    }
+
+    @Override
+    public Map<String, Object> findTeaCourse(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+
+
+        User currentUserInfo = commonService.findCurrentUserInfo();
+        queryParams.put("teaUuid",currentUserInfo.getInfoUuid());
+        List<Map<String,Object>> entityCoures=entityCourseMapper.findTeaCourseByTeaUuid(queryParams);
+
+        for (Map<String,Object> item:entityCoures) {
+            SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd" );
+            String startDate = dateFormat.format((Date) item.get("strDate"));
+            String endDate = dateFormat.format((Date) item.get("endDate"));
+            item.put("strDate",startDate);
+            item.put("endDate",endDate);
+        }
+
+        PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(entityCoures);
+
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", entityCoures);
+        result.put("total", total);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> queryChooseCouList(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<Map<String, Object>> entityCoures = entityCourseMapper.queryChooseCouList(queryParams);
+
+        for (Map<String,Object> item:entityCoures) {
+            SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd" );
+            String startDate = dateFormat.format((Date) item.get("strDate"));
+            String endDate = dateFormat.format((Date) item.get("endDate"));
+            item.put("strDate",startDate);
+            item.put("endDate",endDate);
+        }
+
+        PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(entityCoures);
+
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", entityCoures);
+        result.put("total", total);
+        return result;
     }
 }
