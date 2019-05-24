@@ -185,5 +185,30 @@ public class GradeMgServiceImpl implements GradeMgService {
         return claNodes;
     }
 
+    @Override
+    public Map<String, Object> findStudentGradeListByCurrentCourse(Map<String, Object> queryParams) {
+        int pageNum = Integer.parseInt(queryParams.get("page").toString());
+        int pageSize= Integer.parseInt(queryParams.get("limit").toString());
+        PageHelper.startPage(pageNum, pageSize);
+        List<Map<String, Object>> StudentGradeList = gradeMapper.findStudentGradeListByCurrentCourse(queryParams);
+        PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(StudentGradeList);
+
+        long total = pageInfo.getTotal();
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", StudentGradeList);
+        result.put("total", total);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> findGradeByGradeId(Grade grade) {
+        return gradeMapper.findGradeByGradeId(grade);
+    }
+
+    @Override
+    public int saveGradeByGradeId(Grade grade) {
+
+        return gradeMapper.updateByPrimaryKeySelective(grade);
+    }
 
 }

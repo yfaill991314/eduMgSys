@@ -37,7 +37,7 @@ Ext.define("app.view.courseMg.entityCourseBaseInfo", {
                 {'name': '待选课', 'value': '待选课'},
                 {'name': '正在授课', 'value': '正在授课'},
                 {'name': '已结课', 'value': '已结课'},
-                {'name': '已评分', 'value': '已评分'},
+                // {'name': '已评分', 'value': '已评分'},
             ]
         });
 

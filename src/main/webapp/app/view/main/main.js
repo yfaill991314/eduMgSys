@@ -1,4 +1,4 @@
-Ext.define("app.view.main.main", {
+    Ext.define("app.view.main.main", {
     extend: 'Ext.Viewport',
     layout: 'border',
     id: 'mainPage',

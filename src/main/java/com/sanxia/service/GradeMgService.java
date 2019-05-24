@@ -25,4 +25,10 @@ public interface GradeMgService {
     int endCourse(EntityCourse entityCourse);
 
     List<Map<String,Object>> findCurTeaCourseList();
+
+    Map<String,Object> findStudentGradeListByCurrentCourse(Map<String,Object> queryParams);
+
+    Map<String,Object> findGradeByGradeId(Grade grade);
+
+    int saveGradeByGradeId(Grade grade);
 }

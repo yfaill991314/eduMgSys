@@ -3,7 +3,8 @@ Ext.define('app.view.teaMyCourse.teaCourse', {
     id: "teaCourse",
     extend: 'Ext.grid.Panel',
     xtype: 'view-teaMyCourse-teaCourse',
-    requires: ["app.view.teaMyCourse.teaCourseBaseInfo"],
+    requires: [
+    "app.view.teaMyCourse.teaCourseInfo"],
     padding: "10px 20px 0 20px",
     config: {
         tabtitle:''
@@ -106,6 +107,21 @@ Ext.define('app.view.teaMyCourse.teaCourse', {
                                                 listeners: {}
                                             }]
                                     }).show();
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                text: '课程详情',
+                                scope: me,
+                                glyph: 'xf002@FontAwesome',
+                                itemId: 'course_info',
+                                handler: function (btn) {
+                                    var selectData = me.getSelectionModel().getSelection();
+                                    if (selectData.length != 1) {
+                                        Ext.Msg.alert('温馨提示', '请选择一条操作数据');
+                                        return;
+                                    }
+                                    me.courseInfo(selectData[0]);
                                 }
                             },
                             '->',
@@ -215,7 +231,7 @@ Ext.define('app.view.teaMyCourse.teaCourse', {
         me.callParent(arguments);
     },
 
-    //详情窗口
+
     endCourse: function (selectData) {
         Ext.Ajax.request({
             url: 'gradeMg/endCourse',
@@ -225,6 +241,7 @@ Ext.define('app.view.teaMyCourse.teaCourse', {
                 var response = JSON.parse(response.responseText);
                 if (response.success) {
                     var result = response.result;
+                    Ext.getCmp("teaCourse").store.reload();
                     Ext.Msg.alert("系统提示", result);
                 } else {
                     Ext.Msg.alert("系统提示", response.message);
@@ -236,6 +253,63 @@ Ext.define('app.view.teaMyCourse.teaCourse', {
             }
         });
     },
+    //详情窗口
+    courseInfo:function (selectData) {
+        Ext.create("Ext.window.Window", {
+            title: '课程信息',
+            modal: true,
+            layout: 'fit',
+            width: '90%',
+            height: '90%',
+            items: [
+                {
+                    autoScroll: true,
+                    autoFill: true,
+                    height: '100%',
+                    width: '100%',
+                    // bodyPadding: 10,
+                    xtype: "view-teaMyCourse-teaCourseInfo",
+                    listeners: {
+                        'afterrender': function (cmp) {
+                            Ext.Ajax.request({
+                                url: 'entityCourse/findEntityCourseInfo',
+                                params: {'id': selectData.get('id')},
+                                method: 'POST',
+                                success: function (response, options) {
+                                    var response = JSON.parse(response.responseText);
+                                    if (response.success) {
+                                        var result = response.result;
+                                        var teaCourseBaseInfo = cmp.down('view-teaMyCourse-teaCourseBaseInfo');
+                                        teaCourseBaseInfo.getForm().setValues(result);
+                                        var teaCourseBaseInfoFields = teaCourseBaseInfo.getForm().getFields();
+                                        teaCourseBaseInfoFields.each(function (field) {
+                                            field.setReadOnly(true);
+                                        });
+                                        teaCourseBaseInfo.queryById('couName').columnWidth = 0.35;
+                                        teaCourseBaseInfo.queryById('location').columnWidth = 0.35;
+                                        teaCourseBaseInfo.queryById('tName').columnWidth = 0.35;
+                                        Ext.each(teaCourseBaseInfo.query('button'), function (btn) {
+                                            btn.hide();
+                                        });
 
+                                        cmp.down('view-teaMyCourse-currentStudentList').store.load({
+                                            params: {
+                                                courseId: selectData.get('id')
+                                            }
+                                        });
+                                    } else {
+                                        Ext.Msg.alert("系统提示", response.message);
+                                    }
+
+                                },
+                                failure: function (response) {
+                                    Ext.Msg.alert("系统提示", "请求超时");
+                                }
+                            });
+                        }
+                    }
+                }],
+        }).show();
+    }
 
 });

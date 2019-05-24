@@ -1,10 +1,12 @@
 package com.sanxia.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.sanxia.po.EntityCourse;
 import com.sanxia.po.Grade;
 import com.sanxia.service.GradeMgService;
 import com.sanxia.utils.DrawClaTable;
 import com.sanxia.utils.ResultView;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,5 +132,29 @@ public class GradeMgController {
             return ResultView.getResultView(true,"结课成功");
         }
 
+    }
+
+    @RequestMapping("/findStudentGradeListByCurrentCourse")
+    @ResponseBody
+    public Map<String,Object> findStudentGradeListByCurrentCourse(@RequestParam Map<String,Object> queryParams){
+        return gradeMgService.findStudentGradeListByCurrentCourse(queryParams);
+    }
+
+    @RequestMapping("/findGradeByGradeId")
+    @ResponseBody
+    public  Map<String,Object> findGradeByGradeId(Grade grade){
+        Map<String,Object> stuGradeRes=gradeMgService.findGradeByGradeId(grade);
+        return ResultView.getResultView(true,stuGradeRes);
+    }
+
+    @RequestMapping("/saveGradeByGradeId")
+    @ResponseBody
+    public  Map<String,Object> saveGradeByGradeId(Grade grade){
+        int i=gradeMgService.saveGradeByGradeId(grade);
+        if (i==1){
+            return ResultView.getResultView(true,"编辑成绩成功");
+        }else {
+            return ResultView.getResultView(true,"编辑成绩失败");
+        }
     }
 }

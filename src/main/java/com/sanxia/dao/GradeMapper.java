@@ -21,4 +21,8 @@ public interface GradeMapper {
     List<Map<String,Object>> queryCouresGradeList(Map<String,Object> queryParams);
 
     List<Grade> isExisteGrade(Grade grade);
+
+    List<Map<String,Object>> findStudentGradeListByCurrentCourse(Map<String,Object> queryParams);
+
+    Map<String,Object> findGradeByGradeId(Grade grade);
 }

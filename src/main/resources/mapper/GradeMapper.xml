@@ -140,4 +140,34 @@
       </if>
     </where>
   </select>
+
+  <select id="findStudentGradeListByCurrentCourse" resultType="map" parameterType="map">
+    select
+    *
+    from grade gd
+    inner join student stu on gd.stu_id=stu.stu_num
+    <where>
+      <if test="courseId!=null and courseId!=''">
+        gd.e_course_id=#{courseId}
+      </if>
+    </where>
+  </select>
+
+
+  <sql id="stu_Column_List">
+    stu_num stuNum, stu.uuid stuUuid, user_uuid userUuid, stu_name stuName, age age, sex sex, phone_num phoneNum, college college, profession profession, in_sch_year inSchYear,
+    stu_class stuClass, id gradeId, gd.uuid gdUuid, e_course_id eCourseId, stu_id stuId, grade grade
+  </sql>
+
+  <select id="findGradeByGradeId" parameterType="com.sanxia.po.Grade" resultType="map">
+    select
+    <include refid="stu_Column_List"></include>
+    from grade gd
+    inner join student stu on gd.stu_id=stu.stu_num
+    <where>
+      <if test="id!=null and id!=''">
+        gd.id=#{id}
+      </if>
+    </where>
+  </select>
 </mapper>
